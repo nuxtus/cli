@@ -11,7 +11,7 @@ clear()
 console.log(
 	chalk.green(figlet.textSync("nuxtus-cli", { horizontalLayout: "full" }))
 )
-program.name("Nuxtus").version("1.0.0").description("Contact Management System")
+program.name("Nuxtus").version("1.0.0").description("Nuxtus boilerplate CLI")
 
 program
 	.command("addContact")
