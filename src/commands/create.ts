@@ -1,6 +1,17 @@
 import inquirer from "inquirer"
 
 export default () => {
+	// TODO: Check there is a .env
+	// Check it contains DIRECTUS_URL
+	if (!process.env.hasOwnProperty("DIRECTUS_URL")) {
+		console.log("Please add a .env file with the following content:")
+		console.log("DIRECTUS_URL=https://example.com/api")
+		console.log("DIRECTUS_TOKEN=123456789")
+		return
+	}
+
+	// LOG IN AND RETRIEVE COLLECTIONS
+
 	inquirer
 		.prompt([
 			{

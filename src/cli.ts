@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import "dotenv/config"
+
 import { Command } from "commander"
 import chalk from 'chalk'
 import clear from 'clear'
@@ -18,5 +20,6 @@ program
 	.command("create")
 	.description("Create pages based on Directus collection(s).")
 	.action(create)
+	// TODO: Can I catch an error and display it in red?
 
 program.parse()
