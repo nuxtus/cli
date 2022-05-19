@@ -9,7 +9,6 @@ Command line interface for the Nuxtus Boilerplate.
 ```bash
 $ ./nuxtus [command] [options]
 ```
-```
 
 ## Development
 
