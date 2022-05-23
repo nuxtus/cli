@@ -17,7 +17,15 @@
     "nuxtus": "./build/cli.js"
   },
   "pkg": {
-    "scripts": "build/**/*.js"
+    "scripts": "build/**/*.js",
+    "assets": [
+      "node_modules/figlet/fonts/Standard.flf"
+    ],
+    "targets": [
+      "node14-linux-x64",
+      "node14-macos-x64",
+      "node14-win-x86"
+    ]
   },
   "author": "Craig Harman",
   "license": "MIT",

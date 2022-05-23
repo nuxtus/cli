@@ -1,4 +1,5 @@
 .vscode
-./nuxtus
+nuxtus
 node_modules
 build
+.env

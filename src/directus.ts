@@ -5,6 +5,6 @@ export class Directus {
 	}
 
 	public getCollections() {
-		const tooken = this.login()
+		const token = this.login()
 	}
 }

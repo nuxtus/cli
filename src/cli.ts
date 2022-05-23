@@ -14,12 +14,11 @@ clear()
 console.log(
 	chalk.green(figlet.textSync("nuxtus-cli", { horizontalLayout: "full" }))
 )
-program.name("Nuxtus").version("1.0.0").description("Nuxtus boilerplate CLI")
+program.name("nuxtus").version("1.0.0").description("Nuxtus boilerplate CLI")
 
 program
 	.command("create")
 	.description("Create pages based on Directus collection(s).")
-	.action(create)
-	// TODO: Can I catch an error and display it in red?
+	.action(() => create(chalk))
 
 program.parse()
