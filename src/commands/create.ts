@@ -69,14 +69,18 @@ export default create = async function (chalk: Chalk): Promise<void> {
 
 	// Remove collections that already have pages created and default system collections
 	const existingCollections: string[] = await getDirectories("pages")
-
 	const collections = collectionData.data.filter((collection: any) => {
 		return (
 			!collection.collection.startsWith("directus_") &&
 			!existingCollections.includes(collection.collection)
 		)
-	})
+	}) // TODO: Posssibly map to just collection (name)
 
+	if (collections.length === 0) {
+		console.log(chalk.yellow("No collections need to be created."))
+		return
+	}
+	
 	console.log(collections)
 
 	inquirer
