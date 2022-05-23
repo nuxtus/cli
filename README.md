@@ -12,6 +12,14 @@ $ ./nuxtus [command] [options]
 
 ## Development
 
+To watch for changes during development:
+
+```bash
+$ npm start <command>
+```
+
+## Package
+
 To build the JS:
 
 ```bash

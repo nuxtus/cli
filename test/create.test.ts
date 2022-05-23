@@ -1,7 +1,12 @@
-import { assert, expect, test } from "vitest"
+import { assert, expect, test, vi } from "vitest"
 
-test("Math.sqrt()", () => {
-	expect(Math.sqrt(4)).toBe(2)
-	expect(Math.sqrt(144)).toBe(12)
-	expect(Math.sqrt(2)).toBe(Math.SQRT2)
+import chalk from "chalk"
+import create from "../src/commands/create"
+import inquirer from "inquirer"
+
+test("create collection", () => {
+	vi.mock("inquirer")
+	// inquirer.prompt = vi.fn().mockResolvedValue({ email: "some@example.com" })
+	create(chalk)
+	assert(true)
 })
