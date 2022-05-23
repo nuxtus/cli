@@ -1,12 +1,30 @@
 import { Chalk } from "chalk"
 import { Command } from "../interfaces/command.interface"
+import { Directus } from "@directus/sdk"
 import inquirer from "inquirer"
+const {
+	promises: { readdir },
+} = require("fs")
+
+type CollectionItem = {
+	collection: string
+	meta: Object
+	schema: Object
+}
+
+const getDirectories = async (source: string) =>
+	(await readdir(source, { withFileTypes: true }))
+		.filter((dirent: any) => dirent.isDirectory())
+		.map((dirent: any) => dirent.name)
 
 let create: Command
 
-export default create = function (chalk: Chalk): void {
+export default create = async function (chalk: Chalk): Promise<void> {
 	// Check it contains DIRECTUS_URL
-	if (!process.env.hasOwnProperty("DIRECTUS_URL")) {
+	if (
+		!process.env.hasOwnProperty("DIRECTUS_URL") ||
+		process.env.DIRECTUS_URL === undefined
+	) {
 		console.log(chalk.red("No .env file found."))
 		console.log()
 		console.log(
@@ -20,8 +38,46 @@ export default create = function (chalk: Chalk): void {
 	}
 
 	// LOG IN AND RETRIEVE COLLECTIONS
+	const directus = new Directus(process.env.DIRECTUS_URL)
+	const email = process.env.NUXT_PUBLIC_DIRECTUS_EMAIL || ""
+	const password = process.env.NUXT_PUBLIC_DIRECTUS_PASSWORD || ""
 
-	// Remove collections that already have pages created
+	await directus.auth
+		.login({ email, password })
+		// .then(() => {
+		// 	authenticated = true
+		// })
+		.catch(() => {
+			console.log(
+				chalk.red(
+					"Cannot login to Directus. Check your .env file and that Directus is running."
+				)
+			)
+		})
+
+	const collectionData = await directus.collections.readAll()
+	// const collectionData = await directus.items("directus_collections")
+
+	if (
+		collectionData.data === null ||
+		collectionData.data === undefined ||
+		collectionData.data.length === 0
+	) {
+		console.log(chalk.red("No Directus collections found."))
+		return
+	}
+
+	// Remove collections that already have pages created and default system collections
+	const existingCollections: string[] = await getDirectories("pages")
+
+	const collections = collectionData.data.filter((collection: any) => {
+		return (
+			!collection.collection.startsWith("directus_") &&
+			!existingCollections.includes(collection.collection)
+		)
+	})
+
+	console.log(collections)
 
 	inquirer
 		.prompt([

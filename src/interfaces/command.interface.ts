@@ -1,5 +1,5 @@
 import { Chalk } from "chalk"
 
 export interface Command {
-	(chalk: Chalk): void
+	(chalk: Chalk): Promise<void>
 }
