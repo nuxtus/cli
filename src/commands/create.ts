@@ -1,6 +1,7 @@
 import { Chalk } from "chalk"
 import { Command } from "../interfaces/command.interface"
 import { Directus } from "@directus/sdk"
+import { createPage } from "../generator"
 import inquirer from "inquirer"
 const {
 	promises: { readdir },
@@ -56,7 +57,6 @@ export default create = async function (chalk: Chalk): Promise<void> {
 		})
 
 	const collectionData = await directus.collections.readAll()
-	// const collectionData = await directus.items("directus_collections")
 
 	if (
 		collectionData.data === null ||
@@ -69,19 +69,21 @@ export default create = async function (chalk: Chalk): Promise<void> {
 
 	// Remove collections that already have pages created and default system collections
 	const existingCollections: string[] = await getDirectories("pages")
-	const collections = collectionData.data.filter((collection: any) => {
-		return (
-			!collection.collection.startsWith("directus_") &&
-			!existingCollections.includes(collection.collection)
-		)
-	}) // TODO: Posssibly map to just collection (name)
+	const collections = collectionData.data
+		.filter((collection: any) => {
+			return (
+				!collection.collection.startsWith("directus_") &&
+				!existingCollections.includes(collection.collection)
+			)
+		})
+		.map((collection: any) => {
+			return collection.collection
+		})
 
 	if (collections.length === 0) {
 		console.log(chalk.yellow("No collections need to be created."))
 		return
 	}
-	
-	console.log(collections)
 
 	inquirer
 		.prompt([
@@ -89,20 +91,29 @@ export default create = async function (chalk: Chalk): Promise<void> {
 				type: "checkbox",
 				name: "collections",
 				message: "Select Directus collections to create pages for",
-				choices: ["Collection1", "Collection2"], // TODO: These will be dynamically retrieved from Directus
+				choices: collections, // TODO: These will be dynamically retrieved from Directus
 			},
 		])
 		.then((answers) => {
 			// Use user feedback for... whatever!!
-			console.log(answers)
+			if (answers.collections.length === 0) {
+				console.log(chalk.yellow("No collections selected."))
+				return
+			}
+			answers.collections.forEach((collection: string) => {
+				// TODO:  Align with corresponding collectionData.data
+				createPage(collection, false, chalk)
+			})
 		})
 		.catch((error) => {
 			if (error.isTtyError) {
 				// Prompt couldn't be rendered in the current environment
-				chalk.red("Prompt couldn't be rendered in the current environment")
+				console.log(
+					chalk.red("Prompt couldn't be rendered in the current environment")
+				)
 			} else {
 				// Something else went wrong
-				chalk.red("An unknown error occurred")
+				console.log(chalk.red("An unknown error occurred"))
 			}
 		})
 }
