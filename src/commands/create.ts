@@ -43,6 +43,7 @@ export default create = async function (chalk: Chalk): Promise<void> {
 		console.log("DIRECTUS_TOKEN=123456789")
 		console.log("NUXT_PUBLIC_DIRECTUS_EMAIL=admin@test.com")
 		console.log("NUXT_PUBLIC_DIRECTUS_PASSWORD=password")
+		console.log()
 		return
 	}
 
@@ -62,6 +63,8 @@ export default create = async function (chalk: Chalk): Promise<void> {
 					"Cannot login to Directus. Check your .env file and that Directus is running."
 				)
 			)
+			console.log()
+			return
 		})
 
 	const collectionData = await directus.collections.readAll()
@@ -72,6 +75,7 @@ export default create = async function (chalk: Chalk): Promise<void> {
 		collectionData.data.length === 0
 	) {
 		console.log(chalk.red("No Directus collections found."))
+		console.log()
 		return
 	}
 
@@ -91,6 +95,7 @@ export default create = async function (chalk: Chalk): Promise<void> {
 
 	if (collections.length === 0) {
 		console.log(chalk.yellow("No collections need to be created."))
+		console.log()
 		return
 	}
 
