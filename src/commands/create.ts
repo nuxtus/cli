@@ -101,7 +101,6 @@ export default create = async function (chalk: Chalk): Promise<void> {
 			},
 		])
 		.then((answers) => {
-			// Use user feedback for... whatever!!
 			if (answers.collections.length === 0) {
 				console.log(chalk.yellow("No collections selected."))
 				return
