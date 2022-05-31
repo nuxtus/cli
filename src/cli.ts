@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 
+import "dotenv/config"
+
 import { Command } from "commander"
 import chalk from 'chalk'
 import clear from 'clear'
-import figlet from 'figlet'
+import create from "./commands/create"
+import figlet from "figlet"
 
 const program = new Command()
 
@@ -11,17 +14,11 @@ clear()
 console.log(
 	chalk.green(figlet.textSync("nuxtus-cli", { horizontalLayout: "full" }))
 )
-program.name("Nuxtus").version("1.0.0").description("Contact Management System")
+program.name("nuxtus").version("1.0.0").description("Nuxtus boilerplate CLI")
 
 program
-	.command("addContact")
-	.alias("a")
-	.description("Add a contact")
-	.action(() => {
-		console.log(
-			chalk.yellow("=========*** Contact Management System ***==========")
-		)
-		// inquirer.prompt(questions).then((answers) => actions.addContact(answers))
-	})
+	.command("create")
+	.description("Create pages based on Directus collection(s).")
+	.action(() => create(chalk))
 
 program.parse()
