@@ -16,6 +16,9 @@ export function createPage(
 		return createSingletonPage(pageName, chalk)
 	}
 	console.log(chalk.green(`Creating pages for ${pageName}`))
-	const pageFolder = path.join("/", "pages", pageName)
-	fs.mkdirSync(pageFolder)
+	const pageFolder = path.join("pages", pageName)
+	fs.mkdirSync(pageFolder, (err: Error) => {
+		console.error(chalk.red(err.message))
+		throw err
+	})
 }

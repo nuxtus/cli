@@ -1,12 +1,25 @@
-import { assert, expect, test, vi } from "vitest"
+import { afterAll, assert, expect, test, vi } from "vitest"
 
 import chalk from "chalk"
-import create from "../src/commands/create"
-import inquirer from "inquirer"
+import { createPage } from "../src/generator"
+
+// import inquirer from "inquirer"
+
+const path = require("path")
+const fs = require("fs")
+
+afterAll(() => {
+	const pageFolder = path.join("pages", "test")
+	fs.rmdirSync(pageFolder, { recursive: true }, (err) => {
+		if (err) {
+			throw err
+		}
+	})
+})
 
 test("create collection", () => {
-	vi.mock("inquirer")
+	// vi.mock("inquirer")
 	// inquirer.prompt = vi.fn().mockResolvedValue({ email: "some@example.com" })
-	create(chalk)
-	assert(true)
+	createPage("test", false, chalk)
+	expect(fs.existsSync("pages/test")).toBe(true)
 })
