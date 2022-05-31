@@ -1,4 +1,5 @@
 import { Chalk } from "chalk"
+import process from "process"
 var fs = require("fs")
 const path = require("path")
 const nunjucks = require("nunjucks")
@@ -22,7 +23,7 @@ export function createPage(
 	isSingleton: boolean,
 	chalk: Chalk
 ): void {
-	nunjucks.configure("src/templates", {
+	nunjucks.configure(path.join(__dirname, "src/templates"), {
 		tags: {
 			blockStart: "<%",
 			blockEnd: "%>",

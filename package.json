@@ -10,7 +10,7 @@
     "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/cli.ts",
     "start:windows": "nodemon --watch 'src/**/*.ts' --exec \"npx ts-node\" src/cli.ts",
     "create": "npm run build && npm run test",
-    "build": "tsc -p .",
+    "build": "tsc -p . && cp -R src/templates build/src",
     "local": "sudo npm i -g && nuxtus",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
   },
