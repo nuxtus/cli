@@ -9,7 +9,10 @@ const {
 
 type CollectionItem = {
 	collection: string
-	meta: Object
+	meta: {
+		hidden: boolean
+		singleton: boolean
+	}
 	schema: Object
 }
 
@@ -91,7 +94,7 @@ export default create = async function (chalk: Chalk): Promise<void> {
 				type: "checkbox",
 				name: "collections",
 				message: "Select Directus collections to create pages for",
-				choices: collections, // TODO: These will be dynamically retrieved from Directus
+				choices: collections,
 			},
 		])
 		.then((answers) => {
@@ -100,10 +103,11 @@ export default create = async function (chalk: Chalk): Promise<void> {
 				console.log(chalk.yellow("No collections selected."))
 				return
 			}
-			answers.collections.forEach((collection: string) => {
-				// TODO:  Align with corresponding collectionData.data
-				console.log(filteredCollections)
-				createPage(collection, false, chalk)
+			answers.collections.forEach((collectionName: string) => {
+				const collection = filteredCollections.find(
+					(o: any) => o.collection === collectionName
+				)
+				createPage(collectionName, collection!.meta.singleton, chalk)
 			})
 		})
 		.catch((error) => {
