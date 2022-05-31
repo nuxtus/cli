@@ -5,6 +5,9 @@ import { Command } from "../interfaces/command.interface"
 import { createPage } from "../generator"
 import inquirer from "inquirer"
 
+const CLI = require("clui")
+const Spinner = CLI.Spinner
+
 const {
 	promises: { readdir },
 } = require("fs")
@@ -105,11 +108,21 @@ export default create = async function (chalk: Chalk): Promise<void> {
 				console.log(chalk.yellow("No collections selected."))
 				return
 			}
+			let spinner = new Spinner()
 			answers.collections.forEach((collectionName: string) => {
 				const collection = filteredCollections.find(
 					(o: any) => o.collection === collectionName
 				)
-				createPage(collectionName, collection!.meta?.singleton || false, chalk)
+				const singleton: boolean = collection!.meta?.singleton || false
+				if (singleton) {
+					spinner.message(`Creating page for ${collectionName}`)
+				} else {
+					spinner.message(`Creating pages for ${collectionName}`)
+				}
+				spinner.start()
+				createPage(collectionName, singleton, chalk)
+				spinner.stop()
+				console.log(chalk.green(`✅ ${collectionName} created.`))
 			})
 		})
 		.catch((error) => {
@@ -120,7 +133,7 @@ export default create = async function (chalk: Chalk): Promise<void> {
 				)
 			} else {
 				// Something else went wrong
-				console.log(chalk.red("An unknown error occurred"))
+				console.log(chalk.red("An unknown error occurred", error))
 			}
 		})
 }

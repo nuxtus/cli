@@ -4,7 +4,6 @@ const path = require("path")
 const nunjucks = require("nunjucks")
 
 function createSingletonPage(pageName: string, chalk: Chalk): void {
-	console.log(chalk.green(`Creating page for ${pageName}`))
 	const pageFolder = path.join("pages", pageName)
 	fs.mkdirSync(pageFolder, (err: Error) => {
 		console.error(chalk.red(err.message))
@@ -36,7 +35,6 @@ export function createPage(
 	if (isSingleton) {
 		return createSingletonPage(pageName, chalk)
 	}
-	console.log(chalk.green(`Creating pages for ${pageName}`))
 	const pageFolder = path.join("pages", pageName)
 	fs.mkdirSync(pageFolder, (err: Error) => {
 		console.error(chalk.red(err.message))
