@@ -104,6 +104,7 @@ export default create = async function (chalk: Chalk): Promise<void> {
 			},
 		])
 		.then((answers) => {
+			console.log()
 			if (answers.collections.length === 0) {
 				console.log(chalk.yellow("No collections selected."))
 				return
@@ -136,4 +137,6 @@ export default create = async function (chalk: Chalk): Promise<void> {
 				console.log(chalk.red("An unknown error occurred", error))
 			}
 		})
+
+	console.log()
 }
