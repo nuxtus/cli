@@ -4,7 +4,12 @@ const path = require("path")
 const nunjucks = require("nunjucks")
 
 function createSingletonPage(pageName: string, chalk: Chalk): void {
-	// TODO: Write this
+	console.log(chalk.green(`Creating page for ${pageName}`))
+	const pageFile = path.join("pages", `${pageName}.vue`)
+	const indexContent: string = nunjucks.render("singleton.njk.vue", {
+		collection: pageName,
+	})
+	fs.writeFileSync(pageFile, indexContent)
 	return
 }
 
@@ -13,6 +18,16 @@ export function createPage(
 	isSingleton: boolean,
 	chalk: Chalk
 ): void {
+	nunjucks.configure("src/templates", {
+		tags: {
+			blockStart: "<%",
+			blockEnd: "%>",
+			variableStart: "{$",
+			variableEnd: "$}",
+			commentStart: "<#",
+			commentEnd: "#>",
+		},
+	})
 	if (isSingleton) {
 		return createSingletonPage(pageName, chalk)
 	}
@@ -24,16 +39,6 @@ export function createPage(
 	})
 	const indexFile = path.join(pageFolder, "index.vue")
 	const individualFile = path.join(pageFolder, "[id].vue")
-	nunjucks.configure("src/templates", {
-		tags: {
-			blockStart: "<%",
-			blockEnd: "%>",
-			variableStart: "{$",
-			variableEnd: "$}",
-			commentStart: "<#",
-			commentEnd: "#>",
-		},
-	})
 	const indexContent: string = nunjucks.render("index.njk.vue", {
 		collection: pageName,
 	})

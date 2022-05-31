@@ -12,5 +12,6 @@
 </script>
 
 <template>
+  <h1>{{ {$ collection $} }}</h1>
   {{ item }}
 </template>
