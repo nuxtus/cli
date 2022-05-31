@@ -17,15 +17,14 @@ afterAll(() => {
 	})
 })
 
-test("create collection", () => {
+test("create collection page", () => {
 	// vi.mock("inquirer")
 	// inquirer.prompt = vi.fn().mockResolvedValue({ email: "some@example.com" })
 	createPage("test", false, chalk)
 	expect(fs.existsSync("pages/test")).toBe(true)
 	expect(fs.existsSync("pages/test/index.vue")).toBe(true)
-	const data = fs.readFileSync("pages/test/index.vue", {
-		encoding: "utf8",
-		flag: "r",
-	})
-	expect(data.includes('collection: "test",')).toBe(true)
+	const indexPage = fs.readFileSync("pages/test/index.vue")
+	expect(indexPage.includes('collection: "test",')).toBe(true)
+	const individualPage = fs.readFileSync("pages/test/[id].vue")
+	expect(individualPage.includes('collection: "test",')).toBe(true)
 })

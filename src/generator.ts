@@ -23,7 +23,8 @@ export function createPage(
 		throw err
 	})
 	const indexFile = path.join(pageFolder, "index.vue")
-	var env = nunjucks.configure("src/templates", {
+	const individualFile = path.join(pageFolder, "[id].vue")
+	nunjucks.configure("src/templates", {
 		tags: {
 			blockStart: "<%",
 			blockEnd: "%>",
@@ -33,8 +34,12 @@ export function createPage(
 			commentEnd: "#>",
 		},
 	})
-	const pageContent: string = nunjucks.render("listing.njk.vue", {
+	const indexContent: string = nunjucks.render("index.njk.vue", {
 		collection: pageName,
 	})
-	fs.writeFileSync(indexFile, pageContent)
+	fs.writeFileSync(indexFile, indexContent)
+	const itemContent: string = nunjucks.render("individual.njk.vue", {
+		collection: pageName,
+	})
+	fs.writeFileSync(individualFile, itemContent)
 }
