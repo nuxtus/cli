@@ -1,6 +1,7 @@
 import { Chalk } from "chalk"
 var fs = require("fs")
 const path = require("path")
+const nunjucks = require("nunjucks")
 
 function createSingletonPage(pageName: string, chalk: Chalk): void {
 	// TODO: Write this
@@ -21,4 +22,19 @@ export function createPage(
 		console.error(chalk.red(err.message))
 		throw err
 	})
+	const indexFile = path.join(pageFolder, "index.vue")
+	var env = nunjucks.configure("src/templates", {
+		tags: {
+			blockStart: "<%",
+			blockEnd: "%>",
+			variableStart: "{$",
+			variableEnd: "$}",
+			commentStart: "<#",
+			commentEnd: "#>",
+		},
+	})
+	const pageContent: string = nunjucks.render("listing.njk.vue", {
+		collection: pageName,
+	})
+	fs.writeFileSync(indexFile, pageContent)
 }
