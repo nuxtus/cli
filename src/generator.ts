@@ -5,7 +5,12 @@ const nunjucks = require("nunjucks")
 
 function createSingletonPage(pageName: string, chalk: Chalk): void {
 	console.log(chalk.green(`Creating page for ${pageName}`))
-	const pageFile = path.join("pages", `${pageName}.vue`)
+	const pageFolder = path.join("pages", pageName)
+	fs.mkdirSync(pageFolder, (err: Error) => {
+		console.error(chalk.red(err.message))
+		throw err
+	})
+	const pageFile = path.join(pageFolder, `index.vue`)
 	const indexContent: string = nunjucks.render("singleton.njk.vue", {
 		collection: pageName,
 	})

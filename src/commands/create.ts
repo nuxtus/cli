@@ -69,16 +69,16 @@ export default create = async function (chalk: Chalk): Promise<void> {
 
 	// Remove collections that already have pages created and default system collections
 	const existingCollections: string[] = await getDirectories("pages")
-	const collections = collectionData.data
-		.filter((collection: any) => {
-			return (
-				!collection.collection.startsWith("directus_") &&
-				!existingCollections.includes(collection.collection)
-			)
-		})
-		.map((collection: any) => {
-			return collection.collection
-		})
+	const filteredCollections = collectionData.data.filter((collection: any) => {
+		return (
+			!collection.collection.startsWith("directus_") &&
+			!existingCollections.includes(collection.collection) &&
+			!collection.meta.hidden
+		)
+	})
+	const collections = filteredCollections.map((collection: any) => {
+		return collection.collection
+	})
 
 	if (collections.length === 0) {
 		console.log(chalk.yellow("No collections need to be created."))
@@ -102,6 +102,7 @@ export default create = async function (chalk: Chalk): Promise<void> {
 			}
 			answers.collections.forEach((collection: string) => {
 				// TODO:  Align with corresponding collectionData.data
+				console.log(filteredCollections)
 				createPage(collection, false, chalk)
 			})
 		})

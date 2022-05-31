@@ -1,4 +1,4 @@
-import { afterAll, assert, expect, test, vi } from "vitest"
+import { afterEach, assert, expect, test, vi } from "vitest"
 
 import chalk from "chalk"
 import { createPage } from "../src/generator"
@@ -8,9 +8,15 @@ import { createPage } from "../src/generator"
 const path = require("path")
 const fs = require("fs")
 
-afterAll(() => {
+afterEach(() => {
 	const pageFolder = path.join("pages", "test")
 	fs.rmdirSync(pageFolder, { recursive: true }, (err) => {
+		if (err) {
+			throw err
+		}
+	})
+	const pageFolder2 = path.join("pages", "test2")
+	fs.rmdirSync(pageFolder2, { recursive: true }, (err) => {
 		if (err) {
 			throw err
 		}
@@ -36,10 +42,10 @@ test("Create collection pages", () => {
 })
 
 test("Create singleton page", () => {
-	createPage("test", true, chalk)
-	expect(fs.existsSync("pages/test.vue")).toBe(true)
-	const indexPage = fs.readFileSync("pages/test.vue")
-	expect(indexPage.includes('collection: "test"')).toBe(true)
+	createPage("test2", true, chalk)
+	expect(fs.existsSync("pages/test2/index.vue")).toBe(true)
+	const indexPage = fs.readFileSync("pages/test2/index.vue")
+	expect(indexPage.includes('collection: "test2"')).toBe(true)
 	expect(
 		indexPage.includes(` const { getSingletonItem } = useDirectusItems();`)
 	).toBe(true)
