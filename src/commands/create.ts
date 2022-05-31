@@ -1,8 +1,10 @@
+import { Directus, PartialItem } from "@directus/sdk"
+
 import { Chalk } from "chalk"
 import { Command } from "../interfaces/command.interface"
-import { Directus } from "@directus/sdk"
 import { createPage } from "../generator"
 import inquirer from "inquirer"
+
 const {
 	promises: { readdir },
 } = require("fs")
@@ -72,13 +74,14 @@ export default create = async function (chalk: Chalk): Promise<void> {
 
 	// Remove collections that already have pages created and default system collections
 	const existingCollections: string[] = await getDirectories("pages")
-	const filteredCollections = collectionData.data.filter((collection: any) => {
-		return (
-			!collection.collection.startsWith("directus_") &&
-			!existingCollections.includes(collection.collection) &&
-			!collection.meta.hidden
-		)
-	})
+	const filteredCollections: PartialItem<CollectionItem>[] =
+		collectionData.data.filter((collection: any) => {
+			return (
+				!collection.collection.startsWith("directus_") &&
+				!existingCollections.includes(collection.collection) &&
+				!collection.meta.hidden
+			)
+		})
 	const collections = filteredCollections.map((collection: any) => {
 		return collection.collection
 	})
@@ -107,7 +110,7 @@ export default create = async function (chalk: Chalk): Promise<void> {
 				const collection = filteredCollections.find(
 					(o: any) => o.collection === collectionName
 				)
-				createPage(collectionName, collection!.meta.singleton, chalk)
+				createPage(collectionName, collection!.meta?.singleton || false, chalk)
 			})
 		})
 		.catch((error) => {
