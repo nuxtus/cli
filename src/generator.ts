@@ -1,5 +1,5 @@
 import { Chalk } from "chalk"
-var fs = require("fs")
+const fs = require("fs")
 const path = require("path")
 const nunjucks = require("nunjucks")
 

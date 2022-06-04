@@ -14,11 +14,12 @@
 </script>
 
 <template>
-  <ul>
+  <ul v-if="items.length > 0">
     <li v-for="item in items" :key="item.id">
       <router-link :to="`/{$ collection $}/${item.id}`">
         {{ item.title }}
       </router-link>
     </li>
   </ul>
+  <p v-else>No {$ collection $} found.</p>
 </template>
