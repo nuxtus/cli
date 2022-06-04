@@ -7,11 +7,15 @@
         collection: "{$ collection $}",
         id: route.params.id,
       });
-    } catch (e) {}
+    } catch (e) {
+
+    }
   };
 </script>
 
 <template>
-  <h1>{{ {$ collection $} }}</h1>
-  {{ item }}
+  <div>
+    <h1>{$ collection | capitalize $}</h1>
+    <div>{{ selectedItem() }}</div>
+  </div>
 </template>
