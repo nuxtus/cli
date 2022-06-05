@@ -1,23 +1,19 @@
 <script setup lang="ts">
   const { getItems } = useDirectusItems();
-  const items = async () => {
-    try {
-      var filters = { /** Add your filter here */ };
-      var items = await getItems<any>({
-        collection: "{$ collection $}",
-        params: {
-          filter: filters,
-        },
-      });
-    } catch (e) {}
-  };
+  
+  var items = await getItems<any>({
+    collection: "{$ collection $}",
+    params: {
+      filter: filters,
+    },
+  });
 </script>
 
 <template>
   <ul v-if="items.length > 0">
     <li v-for="item in items" :key="item.id">
       <router-link :to="`/{$ collection $}/${item.id}`">
-        {{ item.title }}
+        {{ item.id }}
       </router-link>
     </li>
   </ul>
