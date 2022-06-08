@@ -1,11 +1,11 @@
 <script setup lang="ts">
   const { getItems } = useDirectusItems();
-  
-  var items = await getItems<any>({
+  const filters = {/* Put your filters here */};
+  const items = await getItems<any>({
     collection: "{$ collection $}",
     params: {
       filter: filters,
-    },
+    }
   });
 </script>
 
