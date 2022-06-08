@@ -130,6 +130,10 @@ export default create = async function (chalk: Chalk): Promise<void> {
 				spinner.stop()
 				console.log(chalk.green(`✅ ${collectionName} created.`))
 			})
+			console.log()
+			console.log(
+				chalk.green("All collections created. Restart Nuxt to see them.")
+			)
 		})
 		.catch((error) => {
 			if (error.isTtyError) {
