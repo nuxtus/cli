@@ -17,7 +17,7 @@ $ nuxtus [command] [options]
 ## Manual install
 
 ```bash
-$ npm install -g @nuxtus/client
+$ npm install -g @nuxtus/cli
 ```
 
 In your Nuxt project create (or edit) your .env file to contain:
@@ -25,7 +25,6 @@ In your Nuxt project create (or edit) your .env file to contain:
 ```
 # Nuxt directus required values
 DIRECTUS_URL=http://localhost:8055
-# NUXT_PUBLIC_DIRECTUS_TOKEN=UNSECURE_ACCESS_TOKEN
 NUXT_PUBLIC_DIRECTUS_EMAIL=admin@test.com
 NUXT_PUBLIC_DIRECTUS_PASSWORD=password
 ```
@@ -50,4 +49,12 @@ To package:
 
 ```bash
 $ npm run package
+```
+
+### Testing
+
+Using [Vitest](https://vitest.dev/). 
+
+```bash
+$ npm run test
 ```
