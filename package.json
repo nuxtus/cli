@@ -1,8 +1,16 @@
 {
   "name": "@nuxtus/cli",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Command line interface for Nuxtus projects.",
   "main": "nuxtus.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nuxtus/cli"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "test": "vitest",
     "coverage": "vitest run --coverage",
@@ -15,7 +23,7 @@
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
   },
   "bin": {
-    "nuxtus": "./build/cli.js"
+    "nuxtus": "./build/src/cli.js"
   },
   "pkg": {
     "scripts": "build/**/*.js",

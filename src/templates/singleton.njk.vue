@@ -1,12 +1,9 @@
 <script setup lang="ts">
   const { getSingletonItem } = useDirectusItems();
-  const selectedItem = async () => {
-    try {
-    var item = await getSingletonItem<any>({
-      collection: "{$ collection $}"
-    });
-  } catch (e) {}
-  };
+  
+  const item = await getSingletonItem<any>({
+    collection: "{$ collection $}"
+  });
 </script>
 
 <template>
