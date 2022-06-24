@@ -1,6 +1,6 @@
 {
   "name": "@nuxtus/cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Command line interface for Nuxtus projects.",
   "main": "nuxtus.js",
   "repository": {
@@ -23,7 +23,7 @@
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
   },
   "bin": {
-    "nuxtus": "./build/src/cli.js"
+    "nuxtus": "./build/cli.js"
   },
   "pkg": {
     "scripts": "build/**/*.js",
