@@ -1,5 +1,10 @@
 # Nuxtus CLI
 
+# 1.0.3
+
+- Rebuild
+- Fix bin location
+
 # 1.0.2
 
 - Fix singleton template
