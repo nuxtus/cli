@@ -3,10 +3,13 @@ const fs = require("fs")
 const path = require("path")
 const nunjucks = require("nunjucks")
 
-function createSingletonPage(pageName: string, chalk: Chalk): void {
+function createSingletonPage(
+	pageName: string,
+	chalk: Chalk | undefined = undefined
+): void {
 	const pageFolder = path.join("pages", pageName)
 	fs.mkdirSync(pageFolder, (err: Error) => {
-		console.error(chalk.red(err.message))
+		showError(err.message, chalk)
 		throw err
 	})
 	const pageFile = path.join(pageFolder, `index.vue`)
@@ -17,10 +20,18 @@ function createSingletonPage(pageName: string, chalk: Chalk): void {
 	return
 }
 
+function showError(error: string, chalk: Chalk | undefined = undefined): void {
+	if (chalk) {
+		console.error(chalk.red(error))
+		return
+	}
+	console.error(error)
+}
+
 export function createPage(
 	pageName: string,
 	isSingleton: boolean,
-	chalk: Chalk
+	chalk: Chalk | undefined = undefined
 ): void {
 	nunjucks.configure(path.join(__dirname, "src/templates"), {
 		tags: {
@@ -37,7 +48,7 @@ export function createPage(
 	}
 	const pageFolder = path.join("pages", pageName)
 	fs.mkdirSync(pageFolder, (err: Error) => {
-		console.error(chalk.red(err.message))
+		showError(err.message, chalk)
 		throw err
 	})
 	const indexFile = path.join(pageFolder, "index.vue")
