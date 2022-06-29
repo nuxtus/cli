@@ -1,17 +1,20 @@
+import * as fs from "fs"
+import * as nunjucks from "nunjucks"
+import * as path from "path"
+
 import { Chalk } from "chalk"
-const fs = require("fs")
-const path = require("path")
-const nunjucks = require("nunjucks")
 
 function createSingletonPage(
 	pageName: string,
 	chalk: Chalk | undefined = undefined
 ): void {
 	const pageFolder = path.join("pages", pageName)
-	fs.mkdirSync(pageFolder, (err: Error) => {
+	try {
+		fs.mkdirSync(pageFolder)
+	} catch (err: any) {
 		showError(err.message, chalk)
 		throw err
-	})
+	}
 	const pageFile = path.join(pageFolder, `index.vue`)
 	const indexContent: string = nunjucks.render("singleton.njk.vue", {
 		collection: pageName,
@@ -47,10 +50,13 @@ export function createPage(
 		return createSingletonPage(pageName, chalk)
 	}
 	const pageFolder = path.join("pages", pageName)
-	fs.mkdirSync(pageFolder, (err: Error) => {
+	try {
+		fs.mkdirSync(pageFolder)
+	} catch (err: any) {
 		showError(err.message, chalk)
 		throw err
-	})
+	}
+
 	const indexFile = path.join(pageFolder, "index.vue")
 	const individualFile = path.join(pageFolder, "[id].vue")
 	const indexContent: string = nunjucks.render("index.njk.vue", {
