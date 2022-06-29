@@ -4,6 +4,7 @@
 
 - Export create command for automagically creating pages from collections
 - Chalk no longer required for create page generator
+- Replace require with import in generator.ts
 
 # 1.0.3
 
