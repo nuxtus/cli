@@ -1,5 +1,10 @@
 # Nuxtus CLI
 
+# 1.0.4
+
+- Export create command for automagically creating pages from collections
+- Chalk no longer required for create page generator
+
 # 1.0.3
 
 - Rebuild
