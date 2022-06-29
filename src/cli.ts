@@ -10,6 +10,8 @@ import figlet from "figlet"
 
 const program = new Command()
 
+export { createPage } from "./generator"
+
 clear()
 console.log(
 	chalk.green(figlet.textSync("nuxtus-cli", { horizontalLayout: "full" }))
