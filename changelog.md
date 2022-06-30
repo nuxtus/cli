@@ -3,6 +3,7 @@
 # 1.0.5
 
 - Add dynamic version number to CLI
+- Use @nuxtus/generator instead of hard coded createPage
 
 # 1.0.4
 
