@@ -2,7 +2,7 @@ import { Directus, PartialItem } from "@directus/sdk"
 
 import { Chalk } from "chalk"
 import { Command } from "../interfaces/command.interface"
-import { createPage } from "../generator"
+import { createPage } from "@nuxtus/generator"
 import inquirer from "inquirer"
 
 const CLI = require("clui")
@@ -10,6 +10,7 @@ const Spinner = CLI.Spinner
 
 const {
 	promises: { readdir },
+	existsSync,
 } = require("fs")
 
 type CollectionItem = {
@@ -80,7 +81,10 @@ export default create = async function (chalk: Chalk): Promise<void> {
 	}
 
 	// Remove collections that already have pages created and default system collections
-	const existingCollections: string[] = await getDirectories("pages")
+	let existingCollections: string[] = []
+	if (existsSync("pages")) {
+		existingCollections = await getDirectories("pages")
+	}
 	const filteredCollections: PartialItem<CollectionItem>[] =
 		collectionData.data.filter((collection: any) => {
 			return (

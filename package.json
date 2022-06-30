@@ -1,8 +1,8 @@
 {
   "name": "@nuxtus/cli",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Command line interface for Nuxtus projects.",
-  "main": "src/cli.js",
+  "main": "build/src/cli.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/nuxtus/cli"
@@ -18,12 +18,12 @@
     "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/cli.ts",
     "start:windows": "nodemon --watch 'src/**/*.ts' --exec \"npx ts-node\" src/cli.ts",
     "create": "npm run build && npm run test",
-    "build": "tsc -p . && cp -R src/templates build/src",
+    "build": "tsc -p .",
     "local": "sudo npm i -g && nuxtus",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
   },
   "bin": {
-    "nuxtus": "./build/cli.js"
+    "nuxtus": "./build/src/cli.js"
   },
   "pkg": {
     "scripts": "build/**/*.js",
@@ -39,6 +39,7 @@
   "author": "Craig Harman",
   "license": "MIT",
   "devDependencies": {
+    "@nuxtus/generator": "^1.0.0",
     "@types/clear": "^0.1.2",
     "@types/figlet": "^1.5.4",
     "@types/inquirer": "^8.2.1",

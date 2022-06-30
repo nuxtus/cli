@@ -1,5 +1,9 @@
 # Nuxtus CLI
 
+# 1.0.5
+
+- Add dynamic version number to CLI
+
 # 1.0.4
 
 - Export create command for automagically creating pages from collections
