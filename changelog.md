@@ -1,5 +1,9 @@
 # Nuxtus CLI
 
+# 1.0.6
+
+- Update @directus/sdk to 9.13.0
+
 # 1.0.5
 
 - Add dynamic version number to CLI
