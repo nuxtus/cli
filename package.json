@@ -1,6 +1,6 @@
 {
   "name": "@nuxtus/cli",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Command line interface for Nuxtus projects.",
   "main": "build/src/cli.js",
   "repository": {
@@ -39,7 +39,7 @@
   "author": "Craig Harman",
   "license": "MIT",
   "devDependencies": {
-    "@nuxtus/generator": "^1.0.0",
+    "@nuxtus/generator": "^1.1.0",
     "@types/clear": "^0.1.2",
     "@types/figlet": "^1.5.4",
     "@types/inquirer": "^8.2.1",
@@ -52,7 +52,7 @@
     "vitest": "^0.12.9"
   },
   "dependencies": {
-    "@directus/sdk": "^9.11.0",
+    "@directus/sdk": "^9.13.0",
     "chalk": "^4.1.2",
     "clear": "^0.1.0",
     "clui": "^0.3.6",
