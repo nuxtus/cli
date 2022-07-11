@@ -1,7 +1,7 @@
 import { afterEach, assert, expect, test, vi } from "vitest"
 
 import chalk from "chalk"
-import { createPage } from "../src/generator"
+import { createPage } from "@nuxtus/generator"
 
 // import inquirer from "inquirer" // https://stackoverflow.com/questions/49862039/how-to-write-unit-tests-for-inquirer-js
 

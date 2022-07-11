@@ -39,7 +39,7 @@
   "author": "Craig Harman",
   "license": "MIT",
   "devDependencies": {
-    "@nuxtus/generator": "^1.1.0",
+    "@nuxtus/generator": "^1.1.1",
     "@types/clear": "^0.1.2",
     "@types/figlet": "^1.5.4",
     "@types/inquirer": "^8.2.1",
@@ -62,5 +62,35 @@
     "inquirer": "^8.2.4",
     "nunjucks": "^3.2.3",
     "path": "^0.12.7"
+  },
+  "release": {
+    "branches": "main",
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "releaseRules": [
+            {
+              "type": "revert",
+              "release": "patch"
+            },
+            {
+              "type": "refactor",
+              "release": "minor"
+            }
+          ]
+        }
+      ],
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogTitle": "Changelog"
+        }
+      ],
+      "@semantic-release/npm",
+      "@semantic-release/git",
+      "@semantic-release/github"
+    ]
   }
 }
