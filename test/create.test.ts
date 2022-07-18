@@ -1,7 +1,33 @@
-import { afterEach, expect, test } from "vitest"
+import { afterEach, beforeAll, expect, test, vi } from "vitest"
 
-import { createPage } from "@nuxtus/generator"
+import Generator from "@nuxtus/generator"
 import fs from "node:fs"
+
+// TODO: Re-write this to reflect type.ts
+
+
+let nuxtus: Generator
+
+beforeAll(() => {
+	process.env = {
+		DIRECTUS_URL: "https://example.com/api",
+	}
+
+	vi.mock("@directus/sdk", () => {
+		const Directus = vi.fn()
+		Directus.prototype.auth = {
+			login: vi.fn().mockImplementation(() => {
+				return {
+					expires: Date.now() + 100000,
+				}
+			}),
+		}
+
+		return { Directus }
+	})
+
+	nuxtus = new Generator()
+})
 
 afterEach(() => {
 	fs.rmSync("pages", { recursive: true })
@@ -9,7 +35,7 @@ afterEach(() => {
 
 test("Create collection pages", async () => {
 	fs.mkdirSync("pages")
-	await createPage("test", false)
+	await nuxtus.createPage("test", false)
 	expect(fs.existsSync("pages/test")).toBe(true)
 	expect(fs.existsSync("pages/test/index.vue")).toBe(true)
 	const indexPage = fs.readFileSync("pages/test/index.vue")
@@ -26,7 +52,7 @@ test("Create collection pages", async () => {
 
 test("Create singleton page", async () => {
 	fs.mkdirSync("pages")
-	await createPage("test2", true)
+	await nuxtus.createPage("test2", true)
 	expect(fs.existsSync("pages/test2/index.vue")).toBe(true)
 	const indexPage = fs.readFileSync("pages/test2/index.vue")
 	expect(indexPage.includes('collection: "test2"')).toBe(true)

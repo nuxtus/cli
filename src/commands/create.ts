@@ -2,7 +2,7 @@ import { Directus, PartialItem } from "@directus/sdk"
 
 import { Chalk } from "chalk"
 import { Command } from "../interfaces/command.interface"
-import { createPage } from "@nuxtus/generator"
+import Generator from "@nuxtus/generator"
 import inquirer from "inquirer"
 
 const CLI = require("clui")
@@ -30,44 +30,7 @@ const getDirectories = async (source: string) =>
 let create: Command
 
 export default create = async function (chalk: Chalk): Promise<void> {
-	// Check it contains DIRECTUS_URL
-	if (
-		!process.env.hasOwnProperty("DIRECTUS_URL") ||
-		process.env.DIRECTUS_URL === undefined
-	) {
-		console.log(chalk.red("No .env file found."))
-		console.log()
-		console.log(
-			chalk.bold("Please add a .env file with the following content:")
-		)
-		console.log("DIRECTUS_URL=https://example.com/api")
-		console.log("DIRECTUS_TOKEN=123456789")
-		console.log("NUXT_PUBLIC_DIRECTUS_EMAIL=admin@test.com")
-		console.log("NUXT_PUBLIC_DIRECTUS_PASSWORD=password")
-		console.log()
-		return
-	}
-
-	// LOG IN AND RETRIEVE COLLECTIONS
-	const directus = new Directus(process.env.DIRECTUS_URL)
-	const email = process.env.NUXT_PUBLIC_DIRECTUS_EMAIL || ""
-	const password = process.env.NUXT_PUBLIC_DIRECTUS_PASSWORD || ""
-
-	await directus.auth
-		.login({ email, password })
-		// .then(() => {
-		// 	authenticated = true
-		// })
-		.catch(() => {
-			console.log(
-				chalk.red(
-					"Cannot login to Directus. Check your .env file and that Directus is running."
-				)
-			)
-			console.log()
-			return
-		})
-
+	// TODO: Move get collections to Generator as well?
 	const collectionData = await directus.collections.readAll()
 
 	if (
@@ -130,7 +93,8 @@ export default create = async function (chalk: Chalk): Promise<void> {
 					spinner.message(`Creating pages for ${collectionName}`)
 				}
 				spinner.start()
-				createPage(collectionName, singleton, chalk)
+				const nuxtus = new Generator(chalk)
+				nuxtus.createPage(collectionName, singleton, chalk)
 				spinner.stop()
 				console.log(chalk.green(`✅ ${collectionName} created.`))
 			})
