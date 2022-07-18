@@ -1,5 +1,6 @@
-import { Chalk } from "chalk"
+import Chalk from "chalk"
+import Generator from "@nuxtus/generator"
 
 export interface Command {
-	(chalk: Chalk): Promise<void>
+	(chalk: typeof Chalk, nuxtus?: Generator): Promise<void>
 }

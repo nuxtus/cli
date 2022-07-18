@@ -1,4 +1,4 @@
-import { Directus, PartialItem } from "@directus/sdk"
+import { Item, ManyItems, PartialItem } from "@directus/sdk"
 
 import { Chalk } from "chalk"
 import { Command } from "../interfaces/command.interface"
@@ -29,16 +29,20 @@ const getDirectories = async (source: string) =>
 
 let create: Command
 
-export default create = async function (chalk: Chalk): Promise<void> {
-	// TODO: Move get collections to Generator as well?
-	const collectionData = await directus.collections.readAll()
+export default create = async function (
+	chalk: Chalk,
+	nuxtus?: Generator
+): Promise<void> {
+	if (nuxtus === undefined) nuxtus = new Generator(chalk)
+
+	const collectionData: ManyItems<Item> = await nuxtus.getCollections()
 
 	if (
 		collectionData.data === null ||
 		collectionData.data === undefined ||
 		collectionData.data.length === 0
 	) {
-		console.log(chalk.red("No Directus collections found."))
+		console.log(chalk.yellow("No Directus collections found."))
 		console.log()
 		return
 	}
@@ -66,7 +70,7 @@ export default create = async function (chalk: Chalk): Promise<void> {
 		return
 	}
 
-	inquirer
+	await inquirer
 		.prompt([
 			{
 				type: "checkbox",
@@ -81,26 +85,25 @@ export default create = async function (chalk: Chalk): Promise<void> {
 				console.log(chalk.yellow("No collections selected."))
 				return
 			}
-			let spinner = new Spinner()
-			answers.collections.forEach((collectionName: string) => {
-				const collection = filteredCollections.find(
-					(o: any) => o.collection === collectionName
-				)
-				const singleton: boolean = collection!.meta?.singleton || false
-				if (singleton) {
-					spinner.message(`Creating page for ${collectionName}`)
-				} else {
-					spinner.message(`Creating pages for ${collectionName}`)
-				}
-				spinner.start()
-				const nuxtus = new Generator(chalk)
-				nuxtus.createPage(collectionName, singleton, chalk)
-				spinner.stop()
-				console.log(chalk.green(`✅ ${collectionName} created.`))
+
+			let spinner = new Spinner(`Creating pages from collections...`)
+			spinner.start()
+			Promise.all(
+				answers.collections.map(async (collectionName: string) => {
+					const collection = filteredCollections.find(
+						(o: any) => o.collection === collectionName
+					)
+					const singleton: boolean = collection!.meta?.singleton || false
+					return nuxtus.createPage(collectionName, singleton, chalk)
+				})
+			).catch((err) => {
+				console.error(chalk.red("Error creating page(s): " + err.message)) // Oops!
 			})
+			spinner.stop()
+
 			console.log()
 			console.log(
-				chalk.green("All collections created. Restart Nuxt to see them.")
+				chalk.green("✅ All collections created. Restart Nuxt to see them.")
 			)
 		})
 		.catch((error) => {

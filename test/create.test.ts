@@ -1,62 +1,112 @@
-import { afterEach, beforeAll, expect, test, vi } from "vitest"
+import { afterAll, afterEach, expect, test, vi } from "vitest"
 
 import Generator from "@nuxtus/generator"
+import chalk from "chalk"
+import create from "../src/commands/create"
 import fs from "node:fs"
 
-// TODO: Re-write this to reflect type.ts
-
-
-let nuxtus: Generator
-
-beforeAll(() => {
-	process.env = {
-		DIRECTUS_URL: "https://example.com/api",
+vi.mock("@nuxtus/generator", () => {
+	return {
+		default: vi.fn().mockImplementation(() => {
+			return {
+				createPage: vi.fn(),
+				getCollections: vi.fn(),
+			}
+		}),
 	}
+})
 
-	vi.mock("@directus/sdk", () => {
-		const Directus = vi.fn()
-		Directus.prototype.auth = {
-			login: vi.fn().mockImplementation(() => {
+afterAll(() => {
+	if (fs.existsSync("pages")) {
+		fs.rmSync("pages", { recursive: true })
+	}
+})
+
+afterEach(async () => {
+	await vi.clearAllMocks()
+})
+
+test("No collections to create", async () => {
+	const nuxtus = new Generator()
+	nuxtus.getCollections.mockImplementation(() => {
+		return {
+			createPage: vi.fn(),
+			getCollections: vi.fn().mockImplementation(() => {
 				return {
-					expires: Date.now() + 100000,
+					data: null,
 				}
 			}),
 		}
-
-		return { Directus }
 	})
 
-	nuxtus = new Generator()
-})
-
-afterEach(() => {
-	fs.rmSync("pages", { recursive: true })
+	await create(chalk, nuxtus)
+	await expect(nuxtus.getCollections).toBeCalledTimes(1)
+	await expect(nuxtus.createPage).toBeCalledTimes(0)
 })
 
 test("Create collection pages", async () => {
+	vi.mock("inquirer", () => {
+		return {
+			default: {
+				prompt: vi.fn().mockImplementation(() => {
+					return Promise.resolve({
+						collections: ["collection_created", "collection_created3"],
+					})
+				}),
+			},
+		}
+	})
 	fs.mkdirSync("pages")
-	await nuxtus.createPage("test", false)
-	expect(fs.existsSync("pages/test")).toBe(true)
-	expect(fs.existsSync("pages/test/index.vue")).toBe(true)
-	const indexPage = fs.readFileSync("pages/test/index.vue")
-	expect(indexPage.includes('collection: "test",')).toBe(true)
-	expect(indexPage.includes(`const { getItems } = useDirectusItems();`)).toBe(
-		true
-	)
-	const individualPage = fs.readFileSync("pages/test/[id].vue")
-	expect(individualPage.includes('collection: "test",')).toBe(true)
-	expect(
-		individualPage.includes("const { getItemById } = useDirectusItems()")
-	).toBe(true)
-})
+	fs.mkdirSync("pages/exists")
 
-test("Create singleton page", async () => {
-	fs.mkdirSync("pages")
-	await nuxtus.createPage("test2", true)
-	expect(fs.existsSync("pages/test2/index.vue")).toBe(true)
-	const indexPage = fs.readFileSync("pages/test2/index.vue")
-	expect(indexPage.includes('collection: "test2"')).toBe(true)
-	expect(
-		indexPage.includes(` const { getSingletonItem } = useDirectusItems();`)
-	).toBe(true)
+	let nuxtus = new Generator()
+	nuxtus.getCollections.mockImplementation(() => {
+		return {
+			data: [
+				{
+					collection: "directus_ignored",
+					meta: {
+						hidden: false,
+					},
+				},
+				{
+					collection: "should_be_ignored",
+					meta: {
+						hidden: true,
+					},
+				},
+				{
+					collection: "exists",
+					meta: {
+						hidden: false,
+						singleton: false,
+					},
+				},
+				{
+					collection: "collection_created",
+					meta: {
+						hidden: false,
+						singleton: false,
+					},
+				},
+				{
+					collection: "collection_created2",
+					meta: {
+						hidden: false,
+						singleton: false,
+					},
+				},
+				{
+					collection: "collection_created3",
+					meta: {
+						hidden: false,
+						singleton: false,
+					},
+				},
+			],
+		}
+	})
+	await create(chalk, nuxtus)
+	expect(nuxtus.getCollections).toBeCalledTimes(1)
+	expect(nuxtus.createPage).toBeCalledTimes(2)
 })

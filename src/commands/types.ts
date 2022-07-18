@@ -1,10 +1,11 @@
 import Chalk from "chalk"
+import { Command } from "../interfaces/command.interface"
 import Generator from "@nuxtus/generator"
 
 const CLI = require("clui")
 const Spinner = CLI.Spinner
 
-const create = async function (
+const create: Command = async function (
 	chalk: typeof Chalk,
 	nuxtus?: Generator
 ): Promise<void> {
