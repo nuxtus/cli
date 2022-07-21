@@ -1,8 +1,8 @@
-import { Directus, PartialItem } from "@directus/sdk"
+import { Item, ManyItems, PartialItem } from "@directus/sdk"
 
 import { Chalk } from "chalk"
 import { Command } from "../interfaces/command.interface"
-import { createPage } from "@nuxtus/generator"
+import Generator from "@nuxtus/generator"
 import inquirer from "inquirer"
 
 const CLI = require("clui")
@@ -29,53 +29,20 @@ const getDirectories = async (source: string) =>
 
 let create: Command
 
-export default create = async function (chalk: Chalk): Promise<void> {
-	// Check it contains DIRECTUS_URL
-	if (
-		!process.env.hasOwnProperty("DIRECTUS_URL") ||
-		process.env.DIRECTUS_URL === undefined
-	) {
-		console.log(chalk.red("No .env file found."))
-		console.log()
-		console.log(
-			chalk.bold("Please add a .env file with the following content:")
-		)
-		console.log("DIRECTUS_URL=https://example.com/api")
-		console.log("DIRECTUS_TOKEN=123456789")
-		console.log("NUXT_PUBLIC_DIRECTUS_EMAIL=admin@test.com")
-		console.log("NUXT_PUBLIC_DIRECTUS_PASSWORD=password")
-		console.log()
-		return
-	}
+export default create = async function (
+	chalk: Chalk,
+	nuxtus?: Generator
+): Promise<void> {
+	if (nuxtus === undefined) nuxtus = new Generator(chalk)
 
-	// LOG IN AND RETRIEVE COLLECTIONS
-	const directus = new Directus(process.env.DIRECTUS_URL)
-	const email = process.env.NUXT_PUBLIC_DIRECTUS_EMAIL || ""
-	const password = process.env.NUXT_PUBLIC_DIRECTUS_PASSWORD || ""
-
-	await directus.auth
-		.login({ email, password })
-		// .then(() => {
-		// 	authenticated = true
-		// })
-		.catch(() => {
-			console.log(
-				chalk.red(
-					"Cannot login to Directus. Check your .env file and that Directus is running."
-				)
-			)
-			console.log()
-			return
-		})
-
-	const collectionData = await directus.collections.readAll()
+	const collectionData: ManyItems<Item> = await nuxtus.getCollections()
 
 	if (
 		collectionData.data === null ||
 		collectionData.data === undefined ||
 		collectionData.data.length === 0
 	) {
-		console.log(chalk.red("No Directus collections found."))
+		console.log(chalk.yellow("No Directus collections found."))
 		console.log()
 		return
 	}
@@ -103,7 +70,7 @@ export default create = async function (chalk: Chalk): Promise<void> {
 		return
 	}
 
-	inquirer
+	await inquirer
 		.prompt([
 			{
 				type: "checkbox",
@@ -118,25 +85,25 @@ export default create = async function (chalk: Chalk): Promise<void> {
 				console.log(chalk.yellow("No collections selected."))
 				return
 			}
-			let spinner = new Spinner()
-			answers.collections.forEach((collectionName: string) => {
-				const collection = filteredCollections.find(
-					(o: any) => o.collection === collectionName
-				)
-				const singleton: boolean = collection!.meta?.singleton || false
-				if (singleton) {
-					spinner.message(`Creating page for ${collectionName}`)
-				} else {
-					spinner.message(`Creating pages for ${collectionName}`)
-				}
-				spinner.start()
-				createPage(collectionName, singleton, chalk)
-				spinner.stop()
-				console.log(chalk.green(`✅ ${collectionName} created.`))
+
+			let spinner = new Spinner(`Creating pages from collections...`)
+			spinner.start()
+			Promise.all(
+				answers.collections.map(async (collectionName: string) => {
+					const collection = filteredCollections.find(
+						(o: any) => o.collection === collectionName
+					)
+					const singleton: boolean = collection!.meta?.singleton || false
+					return nuxtus.createPage(collectionName, singleton, chalk)
+				})
+			).catch((err) => {
+				console.error(chalk.red("Error creating page(s): " + err.message)) // Oops!
 			})
+			spinner.stop()
+
 			console.log()
 			console.log(
-				chalk.green("All collections created. Restart Nuxt to see them.")
+				chalk.green("✅ All collections created. Restart Nuxt to see them.")
 			)
 		})
 		.catch((error) => {
