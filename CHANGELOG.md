@@ -1,5 +1,12 @@
 Changelog
 
+# [1.1.0](https://github.com/nuxtus/cli/compare/v1.0.7...v1.1.0) (2022-07-21)
+
+
+### Features
+
+* :sparkles: sync types from Directus collection ([c6dc82a](https://github.com/nuxtus/cli/commit/c6dc82a161c39bbdc99c40fe8185695cfca43075))
+
 ## [1.0.7](https://github.com/nuxtus/cli/compare/v1.0.6...v1.0.7) (2022-07-11)
 
 
