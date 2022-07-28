@@ -1,5 +1,12 @@
 Changelog
 
+## [1.1.1](https://github.com/nuxtus/cli/compare/v1.1.0...v1.1.1) (2022-07-28)
+
+
+### Bug Fixes
+
+* :bug: import generator as module ([dc6c454](https://github.com/nuxtus/cli/commit/dc6c454614d48265acd8b28a70b395e25d5a0d14))
+
 # [1.1.0](https://github.com/nuxtus/cli/compare/v1.0.7...v1.1.0) (2022-07-21)
 
 
