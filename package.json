@@ -39,7 +39,7 @@
   "author": "Craig Harman",
   "license": "MIT",
   "devDependencies": {
-    "@nuxtus/generator": "^1.2.0",
+    "@nuxtus/generator": "^1.2.1",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^8.0.5",
