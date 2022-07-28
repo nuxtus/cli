@@ -9,6 +9,7 @@ Command line interface for the Nuxtus Boilerplate (but can be used by any Nuxt c
 ## Features
 
   - Create page stubs for any Directus Collection
+  - Create type definitions for all Directus Collections
 
 ## Usage
 
