@@ -5,11 +5,12 @@ import "dotenv/config"
 import { Command } from "commander"
 import chalk from "chalk"
 import clear from "clear"
-import create from "./commands/create"
+import create from "./commands/create.js"
 import figlet from "figlet"
-import types from "./commands/types"
-import { version } from "../package.json"
+import types from "./commands/types.js"
+import pkg from "../package.json" assert {type: "json"}
 
+const version = pkg.version
 const program = new Command()
 
 clear()
@@ -19,7 +20,7 @@ console.log(
 program
 	.name("nuxtus")
 	.version("v" + version)
-	.description("Nuxtus boilerplate CLI")
+	.description("Nuxtus CLI")
 
 program
 	.command("create")

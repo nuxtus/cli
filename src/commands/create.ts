@@ -1,17 +1,18 @@
+import * as CLI from "clui"
+
 import { Item, ManyItems, PartialItem } from "@directus/sdk"
 
 import { Chalk } from "chalk"
 import { Command } from "../interfaces/command.interface"
 import Generator from "@nuxtus/generator"
+import {existsSync} from "node:fs"
 import inquirer from "inquirer"
+import {
+	readdir
+} from "node:fs/promises"
 
-const CLI = require("clui")
 const Spinner = CLI.Spinner
 
-const {
-	promises: { readdir },
-	existsSync,
-} = require("fs")
 
 type CollectionItem = {
 	collection: string

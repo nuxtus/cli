@@ -2,7 +2,8 @@
   "name": "@nuxtus/cli",
   "version": "1.1.1",
   "description": "Command line interface for Nuxtus projects.",
-  "main": "build/src/cli.js",
+  "exports": "./build/src/cli.js",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/nuxtus/cli"
@@ -35,6 +36,9 @@
       "node14-macos-x64",
       "node14-win-x86"
     ]
+  },
+  "engines": {
+    "node": ">=14.16"
   },
   "author": "Craig Harman",
   "license": "MIT",
