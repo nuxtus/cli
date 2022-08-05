@@ -1,8 +1,9 @@
+import * as CLI from "clui"
+
 import Chalk from "chalk"
 import { Command } from "../interfaces/command.interface"
 import Generator from "@nuxtus/generator"
 
-const CLI = require("clui")
 const Spinner = CLI.Spinner
 
 const create: Command = async function (
