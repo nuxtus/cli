@@ -10,7 +10,12 @@ const create: Command = async function (
 	chalk: typeof Chalk,
 	nuxtus?: Generator
 ): Promise<void> {
-	if (nuxtus === undefined) nuxtus = new Generator()
+	try {
+		if (nuxtus === undefined) nuxtus = new Generator(chalk)
+	} catch (err) {
+		// Error will already be displayed by Generator, so just exit
+		return
+	}
 	nuxtus.createTypes(chalk)
 }
 

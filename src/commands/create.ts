@@ -34,7 +34,13 @@ export default create = async function (
 	chalk: Chalk,
 	nuxtus?: Generator
 ): Promise<void> {
-	if (nuxtus === undefined) nuxtus = new Generator(chalk)
+	
+	try {
+		if (nuxtus === undefined) nuxtus = new Generator(chalk)
+	} catch (err) {
+		// Error will already be displayed by Generator, so just exit
+		return
+	}
 
 	const collectionData: ManyItems<Item> = await nuxtus.getCollections()
 
