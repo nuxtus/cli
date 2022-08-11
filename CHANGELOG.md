@@ -1,5 +1,12 @@
 Changelog
 
+## [1.1.2](https://github.com/nuxtus/cli/compare/v1.1.1...v1.1.2) (2022-08-11)
+
+
+### Bug Fixes
+
+* :bug: Gracefully fail without showing js error. ([60783e0](https://github.com/nuxtus/cli/commit/60783e001194693dc303d94b1ce2c0af6f967780))
+
 ## [1.1.1](https://github.com/nuxtus/cli/compare/v1.1.0...v1.1.1) (2022-07-28)
 
 
