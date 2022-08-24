@@ -15,7 +15,6 @@
   "scripts": {
     "test": "vitest",
     "coverage": "vitest run --coverage",
-    "package": "pkg . --targets node14-macos-x64 --output nuxtus",
     "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/cli.ts",
     "start:windows": "nodemon --watch 'src/**/*.ts' --exec \"npx ts-node\" src/cli.ts",
     "create": "npm run build && npm run test",
@@ -26,17 +25,6 @@
   "bin": {
     "nuxtus": "./build/src/cli.js"
   },
-  "pkg": {
-    "scripts": "build/**/*.js",
-    "assets": [
-      "node_modules/figlet/fonts/Standard.flf"
-    ],
-    "targets": [
-      "node14-linux-x64",
-      "node14-macos-x64",
-      "node14-win-x86"
-    ]
-  },
   "engines": {
     "node": "^16.11.0 || ^17.0.0 || ^18.0.0",
     "npm": ">=8.5.0"
@@ -44,7 +32,7 @@
   "author": "Craig Harman",
   "license": "MIT",
   "devDependencies": {
-    "@nuxtus/generator": "^1.2.1",
+    "@nuxtus/generator": "^1.2.2",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^8.0.5",
