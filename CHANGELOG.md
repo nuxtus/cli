@@ -1,5 +1,12 @@
 Changelog
 
+# [1.2.0](https://github.com/nuxtus/cli/compare/v1.1.2...v1.2.0) (2022-08-27)
+
+
+### Features
+
+* :sparkles: generate static token for admin user to use as auth ([91ccdea](https://github.com/nuxtus/cli/commit/91ccdeaec537587cc8219e5bccf56c60eeb4191d))
+
 ## [1.1.2](https://github.com/nuxtus/cli/compare/v1.1.1...v1.1.2) (2022-08-11)
 
 
