@@ -7,8 +7,6 @@ import { Command } from "../interfaces/command.interface"
 import Generator from "@nuxtus/generator"
 import path from "path"
 
-const Spinner = CLI.Spinner
-
 const token: Command = async function (
 	chalk: typeof Chalk,
 	nuxtus?: Generator
@@ -20,6 +18,9 @@ const token: Command = async function (
 		return
 	}
 	const user = nuxtus.generateStaticToken()
+	if (user === undefined || !Object.hasOwn(user, "token") || user.token === undefined) {
+		throw new Error("Unable to save token to Directus.")
+	}
 	// add the token to nuxt.config.ts
 	const configFile = path.join(process.cwd(), "nuxt.config.ts")
 	const envFile = path.join(process.cwd(), ".env")
@@ -37,6 +38,7 @@ const token: Command = async function (
 		})
 		newEnvArray.push(`NUXT_PUBLIC_DIRECTUS_TOKEN=${user.token}`)
 		writeFileSync(envFile, newEnvArray.join("\n"))
+		console.log(chalk.green("Directus token generated and activated."))
 		return
 	}
 	
