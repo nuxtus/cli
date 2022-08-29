@@ -14,6 +14,23 @@ import pkg from "../package.json" assert {type: "json"}
 const version = pkg.version
 const program = new Command()
 
+const currentNodeVersion = process.versions.node
+const semver = currentNodeVersion.split(".")
+const major = Number(semver[0])
+
+if (major < 16) {
+	console.error(
+		chalk.red(
+			"You are running Node " +
+				currentNodeVersion +
+				".\n" +
+				"Nuxtus CLI requires Node 16 or higher. \n" +
+				"Please update your version of Node."
+		)
+	)
+	process.exit(1)
+}
+
 clear()
 console.log(
 	chalk.green(figlet.textSync("nuxtus-cli", { horizontalLayout: "full" }))
