@@ -13,9 +13,7 @@ vi.mock("@nuxtus/generator", () => {
 			return {
 				generateStaticToken: vi.fn().mockImplementation(() => {
 					return {
-						data: {
-							token: directusToken
-						}
+						token: directusToken
 					}
 				}),
 			}
@@ -56,7 +54,6 @@ export default defineNuxtConfig({
 	await expect(env).toContain(`NUXT_PUBLIC_DIRECTUS_TOKEN=${directusToken}`)
 	// Check nuxt config contains token
 	const config = fs.readFileSync("nuxt.config.ts", "utf8")
-	console.log(config)
 	// await expect(config).toContain(`token: "${directusToken}"`)
 	await expect(config).toContain(`token: process.env.NUXT_PUBLIC_DIRECTUS_TOKEN`)
 })
