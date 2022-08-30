@@ -17,32 +17,39 @@ const token: Command = async function (
 		// Error will already be displayed by Generator, so just exit
 		return
 	}
-	const { data } = nuxtus.generateStaticToken()
-	if (data === undefined || !Object.hasOwn(data, "token") || data.token === undefined) {
-		throw new Error("Unable to save token to Directus.")
+	let data;
+	try {
+		data = await nuxtus.generateStaticToken()
+	} catch (err) {
+		throw new Error(`Unable to save token to Directus. ${err}`)
 	}
+	
 	// add the token to nuxt.config.ts
 	const configFile = path.join(process.cwd(), "nuxt.config.ts")
 	const envFile = path.join(process.cwd(), ".env")
-	if (existsSync(configFile)) {
-		// NOTE: Parsing as string for now, might be a better way
-		let configString = readFileSync(configFile, "utf8")
-		configString = configString.replace('directus: {', `directus: {\n\t\ttoken: process.env.NUXT_PUBLIC_DIRECTUS_TOKEN\n\t`)
-		// Write the config back to a file
-		writeFileSync(configFile, configString)
-		// Remove directus email/password from client/.env and add NUXT_PUBLIC_DIRECTUS_TOKEN
-		const envString = readFileSync(envFile, "utf8")
-		const envArray: String[] = envString.split("\n")
-		const newEnvArray = envArray.filter((line) => {
-			return !line.startsWith('NUXT_PUBLIC_DIRECTUS_EMAIL') && !line.startsWith('NUXT_PUBLIC_DIRECTUS_PASSWORD')
-		})
-		newEnvArray.push(`NUXT_PUBLIC_DIRECTUS_TOKEN=${data.token}`)
-		writeFileSync(envFile, newEnvArray.join("\n"))
-		console.log(chalk.green("Directus token generated and activated."))
-		return
+	if (!existsSync(configFile)) {
+		throw new Error("Unable to locate nuxt.config.ts");
 	}
+	// NOTE: Parsing as string for now, might be a better way
+	let configString = readFileSync(configFile, "utf8")
+	configString = configString.replace('directus: {', `directus: {\n\t\ttoken: process.env.NUXT_PUBLIC_DIRECTUS_TOKEN\n\t`)
+	// Write the config back to a file
+	writeFileSync(configFile, configString)
+
+	if (!existsSync(envFile)) {
+		throw new Error("Unable to locate nuxt.config.ts");
+	}
+	// Remove directus email/password from client/.env and add NUXT_PUBLIC_DIRECTUS_TOKEN
+	const envString = readFileSync(envFile, "utf8")
+	const envArray: String[] = envString.split("\n")
+	const newEnvArray = envArray.filter((line) => {
+		return !line.startsWith('NUXT_PUBLIC_DIRECTUS_EMAIL') && !line.startsWith('NUXT_PUBLIC_DIRECTUS_PASSWORD')
+	})
+	newEnvArray.push(`NUXT_PUBLIC_DIRECTUS_TOKEN=${data.token}`)
+	writeFileSync(envFile, newEnvArray.join("\n"))
+	console.log(chalk.green("Directus token generated and activated."))
+	return
 	
-	throw new Error("Unable to locate nuxt.config.ts");
 }
 
 export default token
