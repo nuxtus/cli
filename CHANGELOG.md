@@ -1,5 +1,29 @@
 Changelog
 
+# [1.4.0](https://github.com/nuxtus/cli/compare/v1.3.0...v1.4.0) (2022-08-30)
+
+
+### Bug Fixes
+
+* :bug: Catch error on generateStaticToken error ([6632ae5](https://github.com/nuxtus/cli/commit/6632ae5815366af83e0252afd7cdb6a169c4e27d))
+
+
+### Features
+
+* :sparkles: if token already exists in .env, overwrite it ([0f20489](https://github.com/nuxtus/cli/commit/0f204895dfa9b26e3b6fc731145e76da190ac85a))
+
+# [1.3.0](https://github.com/nuxtus/cli/compare/v1.2.0...v1.3.0) (2022-08-29)
+
+
+### Bug Fixes
+
+* :bug: save a randomly generated token for Directus use ([7a23a62](https://github.com/nuxtus/cli/commit/7a23a62928a544cf2242f0952f9906ad185ab026))
+
+
+### Features
+
+* :sparkles: Add some helpful debug messages for token creation ([3b502d6](https://github.com/nuxtus/cli/commit/3b502d66ea76350706e518b28fa71e33a74924c5))
+
 # [1.2.0](https://github.com/nuxtus/cli/compare/v1.1.2...v1.2.0) (2022-08-27)
 
 
