@@ -1,5 +1,12 @@
 Changelog
 
+## [1.4.1](https://github.com/nuxtus/cli/compare/v1.4.0...v1.4.1) (2022-09-12)
+
+
+### Bug Fixes
+
+* **deps:** update dependency inquirer to v9 ([4e52568](https://github.com/nuxtus/cli/commit/4e525687015d43d32b2eb1fd78e0a17b9af27d4d))
+
 # [1.4.0](https://github.com/nuxtus/cli/compare/v1.3.0...v1.4.0) (2022-08-30)
 
 
