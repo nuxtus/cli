@@ -1,5 +1,12 @@
 Changelog
 
+# [1.5.0](https://github.com/nuxtus/cli/compare/v1.4.1...v1.5.0) (2022-09-13)
+
+
+### Bug Fixes
+
+* **deps:** update dependency chalk to v5 ([33710f7](https://github.com/nuxtus/cli/commit/33710f735b310794d4e6b33034848ceeeb48cc65))
+
 ## [1.4.1](https://github.com/nuxtus/cli/compare/v1.4.0...v1.4.1) (2022-09-12)
 
 
