@@ -33,7 +33,7 @@ const token: Command = async function (
 	// NOTE: Parsing as string for now, might be a better way
 	let configString = readFileSync(configFile, "utf8")
 	if (configString.indexOf(`directus: {\n\t\ttoken:`)===-1) {
-		configString = configString.replace('directus: {', `directus: {\n\t\ttoken: process.env.NUXT_PUBLIC_DIRECTUS_TOKEN\n\t`)
+		configString = configString.replace('directus: {', `directus: {\n\t\ttoken: process.env.NUXT_PUBLIC_NUXTUS_DIRECTUS_TOKEN\n\t`)
 		// Write the config back to a file
 		writeFileSync(configFile, configString)
 	} else {
@@ -44,13 +44,13 @@ const token: Command = async function (
 	if (!existsSync(envFile)) {
 		throw new Error("Unable to locate ,env");
 	}
-	// Remove directus email/password from client/.env and add NUXT_PUBLIC_DIRECTUS_TOKEN
+	// Remove directus email/password from client/.env and add NUXT_PUBLIC_NUXTUS_DIRECTUS_TOKEN
 	const envString = readFileSync(envFile, "utf8")
 	const envArray: String[] = envString.split("\n")
 	const newEnvArray = envArray.filter((line) => {
-		return !line.startsWith('NUXT_PUBLIC_DIRECTUS_EMAIL') && !line.startsWith('NUXT_PUBLIC_DIRECTUS_PASSWORD') && !line.startsWith('NUXT_PUBLIC_DIRECTUS_TOKEN')
+		return !line.startsWith('NUXT_PUBLIC_NUXTUS_DIRECTUS_EMAIL') && !line.startsWith('NUXT_PUBLIC_NUXTUS_DIRECTUS_PASSWORD') && !line.startsWith('NUXT_PUBLIC_NUXTUS_DIRECTUS_TOKEN')
 	})
-	newEnvArray.push(`NUXT_PUBLIC_DIRECTUS_TOKEN=${data.token}`)
+	newEnvArray.push(`NUXT_PUBLIC_NUXTUS_DIRECTUS_TOKEN=${data.token}`)
 	writeFileSync(envFile, newEnvArray.join("\n"))
 	console.log(chalk.green("Directus token generated and activated."))
 	return
