@@ -1,5 +1,17 @@
 Changelog
 
+# [2.0.0](https://github.com/nuxtus/cli/compare/v1.5.0...v2.0.0) (2022-11-18)
+
+
+### Features
+
+* :sparkles: Update config to use public nuxtus config items ([676a0d5](https://github.com/nuxtus/cli/commit/676a0d59b58ed39b324e8b529b4b160b212ad972))
+
+
+### BREAKING CHANGES
+
+* Update to nuxt-module 2.x version configuration credentials
+
 # [1.5.0](https://github.com/nuxtus/cli/compare/v1.4.1...v1.5.0) (2022-09-13)
 
 
