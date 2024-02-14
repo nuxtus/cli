@@ -41,7 +41,7 @@
     "@types/figlet": "1.5.5",
     "@types/inquirer": "9.0.7",
     "@types/node": "18.19.15",
-    "@types/nunjucks": "3.2.1",
+    "@types/nunjucks": "3.2.6",
     "nodemon": "3.0.3",
     "semantic-release": "19.0.5",
     "ts-node": "10.9.2",
