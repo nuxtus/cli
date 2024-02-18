@@ -9,7 +9,7 @@ import create from "./commands/create.js"
 import token from "./commands/token.js"
 import figlet from "figlet"
 import types from "./commands/types.js"
-import pkg from "../package.json" assert {type: "json"}
+import pkg from "../package.json" assert { type: "json" }
 
 const version = pkg.version
 const program = new Command()
@@ -32,7 +32,7 @@ if (major < 16) {
 }
 
 clear()
-console.log(
+console.info(
 	chalk.green(figlet.textSync("nuxtus-cli", { horizontalLayout: "full" }))
 )
 program
@@ -52,7 +52,9 @@ program
 
 program
 	.command("token")
-	.description("Create static token and use for authentication instead of email/password.")
+	.description(
+		"Create static token and use for authentication instead of email/password."
+	)
 	.action(() => token(chalk))
 
 program.parse()
