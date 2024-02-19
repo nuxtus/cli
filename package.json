@@ -93,5 +93,8 @@
       "@semantic-release/git",
       "@semantic-release/github"
     ]
+  },
+  "volta": {
+    "node": "20.11.1"
   }
 }
