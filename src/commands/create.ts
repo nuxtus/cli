@@ -1,7 +1,5 @@
 import * as CLI from "clui"
 
-import { Item, ManyItems, PartialItem } from "@directus/sdk"
-
 import { Command } from "../interfaces/command.interface"
 import Generator from "@nuxtus/generator"
 import chalk from "chalk"
@@ -38,7 +36,7 @@ export default create = async function (
 		return
 	}
 
-	const collectionData: ManyItems<Item> = await nuxtus.getCollections()
+	const collectionData = await nuxtus.getCollections()
 
 	if (
 		collectionData.data === null ||
@@ -55,14 +53,13 @@ export default create = async function (
 	if (existsSync("pages")) {
 		existingCollections = await getDirectories("pages")
 	}
-	const filteredCollections: PartialItem<CollectionItem>[] =
-		collectionData.data.filter((collection: any) => {
-			return (
-				!collection.collection.startsWith("directus_") &&
-				!existingCollections.includes(collection.collection) &&
-				!collection.meta.hidden
-			)
-		})
+	const filteredCollections = collectionData.data.filter((collection: any) => {
+		return (
+			!collection.collection.startsWith("directus_") &&
+			!existingCollections.includes(collection.collection) &&
+			!collection.meta.hidden
+		)
+	})
 	const collections = filteredCollections.map((collection: any) => {
 		return collection.collection
 	})
