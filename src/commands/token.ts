@@ -17,9 +17,9 @@ const token: Command = async function (
 		// Error will already be displayed by Generator, so just exit
 		return
 	}
-	let data
+	let token
 	try {
-		data = await nuxtus.generateStaticToken()
+		token = await nuxtus.generateStaticToken()
 	} catch (err) {
 		throw new Error(`Unable to save token to Directus. ${err}`)
 	}
@@ -35,7 +35,7 @@ const token: Command = async function (
 	if (configString.indexOf(`directus: {\n\t\ttoken:`) === -1) {
 		configString = configString.replace(
 			"directus: {",
-			`directus: {\n\t\ttoken: process.env.NUXTUS_DIRECTUS_TOKEN\n\t`
+			`directus: {\n\t\ttoken: process.env.NUXTUS_DIRECTUS_STATIC_TOKEN\n\t`
 		)
 		// Write the config back to a file
 		writeFileSync(configFile, configString)
@@ -50,17 +50,17 @@ const token: Command = async function (
 	if (!existsSync(envFile)) {
 		throw new Error("Unable to locate ,env")
 	}
-	// Remove directus email/password from client/.env and add NUXTUS_DIRECTUS_TOKEN
+	// Remove directus email/password from client/.env and add NUXTUS_DIRECTUS_STATIC_TOKEN
 	const envString = readFileSync(envFile, "utf8")
 	const envArray: String[] = envString.split("\n")
 	const newEnvArray = envArray.filter((line) => {
 		return (
 			!line.startsWith("NUXTUS_DIRECTUS_ADMIN_EMAIL") &&
 			!line.startsWith("NUXTUS_DIRECTUS_ADMIN_PASSWORD") &&
-			!line.startsWith("NUXTUS_DIRECTUS_TOKEN")
+			!line.startsWith("NUXTUS_DIRECTUS_STATIC_TOKEN")
 		)
 	})
-	newEnvArray.push(`NUXTUS_DIRECTUS_TOKEN=${data.token}`)
+	newEnvArray.push(`NUXTUS_DIRECTUS_STATIC_TOKEN=${token}`)
 	writeFileSync(envFile, newEnvArray.join("\n"))
 	console.info(chalk.green("Directus token generated and activated."))
 	return
