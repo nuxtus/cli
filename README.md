@@ -1,6 +1,6 @@
 # Nuxtus CLI
 
-Automatically create [Nuxt]([https](https://nuxtjs.org/) pages from [Directus](https://directus.io/) collections.
+Automatically create [Nuxt](https://nuxtjs.org/) pages from [Directus](https://directus.io/) collections.
 
 For more details visit [nuxtus.com](https://nuxtus.com) or [read the documentation](https://docs.nuxtus.com)
 
