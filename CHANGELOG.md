@@ -1,5 +1,21 @@
 Changelog
 
+# [2.1.0](https://github.com/nuxtus/cli/compare/v2.0.0...v2.1.0) (2024-02-21)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @directus/sdk to v15 ([7f5954b](https://github.com/nuxtus/cli/commit/7f5954b6fa5c41636292e0cc110e407ef228c921))
+* **deps:** update dependency @directus/sdk to v15.0.1 ([d6cff29](https://github.com/nuxtus/cli/commit/d6cff29247790eee4c54f9b2fbbe6a60a1b2dc1f))
+* **deps:** update dependency chalk to v5.3.0 ([adcd693](https://github.com/nuxtus/cli/commit/adcd693fafd4bd6ac5b6a29b9c6693c1f0405866))
+* **deps:** update dependency commander to v12 ([4b3c98f](https://github.com/nuxtus/cli/commit/4b3c98f2cceb2794809f5b4f1cc4ac0e84d8e827))
+* **deps:** update dependency dotenv to v16.4.4 ([8515d39](https://github.com/nuxtus/cli/commit/8515d3912f9a37a46ffdfbdc1fa8bcfb7b2591fd))
+* **deps:** update dependency dotenv to v16.4.5 ([02ac021](https://github.com/nuxtus/cli/commit/02ac021ece01c97fb487709da1ffb7c1a8cfcac7))
+* **deps:** update dependency figlet to v1.7.0 ([42636d2](https://github.com/nuxtus/cli/commit/42636d27a1901daba723f559ecc5cf7170b16a0c))
+* **deps:** update dependency inquirer to v9.2.14 ([3ab924c](https://github.com/nuxtus/cli/commit/3ab924c3f029f4505835359c40200cbb06f29165))
+* **deps:** update dependency inquirer to v9.2.15 ([fc9e4d4](https://github.com/nuxtus/cli/commit/fc9e4d4a78348df1c1af88b29260f4a40a0db4bf))
+* **deps:** update dependency nunjucks to v3.2.4 ([59a8981](https://github.com/nuxtus/cli/commit/59a898105418b67d35c446372146e64bcbc7ec7c))
+
 # [2.0.0](https://github.com/nuxtus/cli/compare/v1.5.0...v2.0.0) (2022-11-18)
 
 
