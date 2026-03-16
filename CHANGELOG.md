@@ -1,5 +1,16 @@
 Changelog
 
+## [2.1.1](https://github.com/nuxtus/cli/compare/v2.1.0...v2.1.1) (2026-03-16)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @directus/sdk to v21 ([c85fdcf](https://github.com/nuxtus/cli/commit/c85fdcf16d2a034cb6e673f960e7a49312cf37d5))
+* **deps:** update dependency commander to v14 ([140f617](https://github.com/nuxtus/cli/commit/140f6178426744f81287a96deeda82932ff78089))
+* **deps:** update dependency dotenv to v17 ([420cf3a](https://github.com/nuxtus/cli/commit/420cf3a651bf6d964b14f607ad9067bb65c692f0))
+* **deps:** update dependency inquirer to v13 ([152c3c8](https://github.com/nuxtus/cli/commit/152c3c8861bc1f8057c019e5c881899e02d48d89))
+* **tests:** update mocks for vitest 4 compatibility ([10c4394](https://github.com/nuxtus/cli/commit/10c43946e57c811a9525144d1aa0f2b823472750))
+
 # [2.1.0](https://github.com/nuxtus/cli/compare/v2.0.0...v2.1.0) (2024-02-21)
 
 
