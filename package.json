@@ -26,7 +26,7 @@
     "nuxtus": "./build/src/cli.js"
   },
   "engines": {
-    "node": "^16.11.0 || ^17.0.0 || ^18.0.0 || ^20.0.0",
+    "node": "^16.11.0 || ^17.0.0 || ^18.0.0 || ^20.0.0 || ^24.0.0",
     "npm": ">=8.5.0"
   },
   "author": "Craig Harman",
@@ -40,7 +40,7 @@
     "@types/clear": "0.1.4",
     "@types/figlet": "1.7.0",
     "@types/inquirer": "9.0.9",
-    "@types/node": "20.19.37",
+    "@types/node": "24.12.0",
     "@types/nunjucks": "3.2.6",
     "nodemon": "3.1.14",
     "semantic-release": "23.1.1",
@@ -112,6 +112,6 @@
     ]
   },
   "volta": {
-    "node": "20.20.1"
+    "node": "24.14.0"
   }
 }
