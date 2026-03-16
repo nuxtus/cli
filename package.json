@@ -38,7 +38,7 @@
     "@semantic-release/github": "9.2.6",
     "@semantic-release/release-notes-generator": "12.1.0",
     "@types/clear": "0.1.4",
-    "@types/figlet": "1.5.8",
+    "@types/figlet": "1.7.0",
     "@types/inquirer": "9.0.9",
     "@types/node": "20.11.19",
     "@types/nunjucks": "3.2.6",
