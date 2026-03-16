@@ -26,7 +26,7 @@
     "nuxtus": "./build/src/cli.js"
   },
   "engines": {
-    "node": "^16.11.0 || ^17.0.0 || ^18.0.0 || ^20.0.0 || ^24.0.0",
+    "node": "^22.0.0 || ^24.0.0",
     "npm": ">=8.5.0"
   },
   "author": "Craig Harman",
