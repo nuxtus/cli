@@ -7,12 +7,24 @@ import fs from "node:fs"
 
 vi.mock("@nuxtus/generator", () => {
 	return {
-		default: vi.fn().mockImplementation(() => {
+		default: vi.fn().mockImplementation(function () {
 			return {
 				createPage: vi.fn(),
 				getCollections: vi.fn(),
 			}
 		}),
+	}
+})
+
+vi.mock("inquirer", () => {
+	return {
+		default: {
+			prompt: vi.fn().mockImplementation(() => {
+				return Promise.resolve({
+					collections: ["collection_created", "collection_created3"],
+				})
+			}),
+		},
 	}
 })
 
@@ -45,17 +57,6 @@ test("No collections to create", async () => {
 })
 
 test("Create collection pages", async () => {
-	vi.mock("inquirer", () => {
-		return {
-			default: {
-				prompt: vi.fn().mockImplementation(() => {
-					return Promise.resolve({
-						collections: ["collection_created", "collection_created3"],
-					})
-				}),
-			},
-		}
-	})
 	fs.mkdirSync("pages")
 	fs.mkdirSync("pages/exists")
 

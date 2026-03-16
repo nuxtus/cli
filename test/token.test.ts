@@ -9,7 +9,7 @@ const directusToken = "12345ABCD"
 
 vi.mock("@nuxtus/generator", () => {
 	return {
-		default: vi.fn().mockImplementation(() => {
+		default: vi.fn().mockImplementation(function () {
 			return {
 				generateStaticToken: vi.fn().mockImplementation(() => directusToken),
 			}

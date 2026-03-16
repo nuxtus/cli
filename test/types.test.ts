@@ -6,18 +6,18 @@ import create from "../src/commands/types"
 
 let nuxtus: Generator
 
+vi.mock("@nuxtus/generator", () => {
+	return {
+		default: vi.fn().mockImplementation(function () {
+			return { createTypes: vi.fn() }
+		}),
+	}
+})
+
 beforeAll(() => {
 	process.env = {
 		DIRECTUS_URL: "https://example.com/api",
 	}
-
-	vi.mock("@nuxtus/generator", () => {
-		return {
-			default: vi.fn().mockImplementation(() => {
-				return { createTypes: vi.fn() }
-			}),
-		}
-	})
 
 	nuxtus = new Generator()
 })
