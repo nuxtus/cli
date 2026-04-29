@@ -2,7 +2,7 @@ import * as CLI from "clui"
 
 import Chalk from "chalk"
 import { Command } from "../interfaces/command.interface"
-import Generator from "@nuxtus/generator"
+import Generator from "@resultcrafter/nuxtus-generator"
 
 const Spinner = CLI.default.Spinner
 

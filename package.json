@@ -1,12 +1,12 @@
 {
-  "name": "@nuxtus/cli",
-  "version": "2.1.4",
+  "name": "@resultcrafter/nuxtus-cli",
+  "version": "2.1.5",
   "description": "Command line interface for Nuxtus projects.",
   "exports": "./build/src/cli.js",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nuxtus/cli"
+    "url": "https://github.com/resultcrafter/nuxtus-cli"
   },
   "publishConfig": {
     "access": "public",
@@ -32,7 +32,7 @@
   "author": "Craig Harman",
   "license": "MIT",
   "devDependencies": {
-    "@nuxtus/generator": "1.9.4",
+    "@resultcrafter/nuxtus-generator": "^1.9.5",
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/git": "10.0.1",
     "@semantic-release/github": "9.2.6",

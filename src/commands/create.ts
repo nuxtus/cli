@@ -1,7 +1,7 @@
 import * as CLI from "clui"
 
 import { Command } from "../interfaces/command.interface"
-import Generator from "@nuxtus/generator"
+import Generator from "@resultcrafter/nuxtus-generator"
 import chalk from "chalk"
 import { existsSync } from "node:fs"
 import inquirer from "inquirer"

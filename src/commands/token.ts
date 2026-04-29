@@ -4,7 +4,7 @@ import { existsSync, readFileSync, writeFileSync } from "fs"
 
 import Chalk from "chalk"
 import { Command } from "../interfaces/command.interface"
-import Generator from "@nuxtus/generator"
+import Generator from "@resultcrafter/nuxtus-generator"
 import path from "path"
 
 const token: Command = async function (
