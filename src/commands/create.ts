@@ -7,7 +7,7 @@ import { existsSync } from "node:fs"
 import inquirer from "inquirer"
 import { readdir } from "node:fs/promises"
 
-const Spinner = CLI.Spinner
+const Spinner = CLI.default.Spinner
 
 type CollectionItem = {
 	collection: string
@@ -23,11 +23,45 @@ const getDirectories = async (source: string) =>
 		.filter((dirent: any) => dirent.isDirectory())
 		.map((dirent: any) => dirent.name)
 
+async function createPages(
+	collectionNames: string[],
+	filteredCollections: any[],
+	nuxtus: Generator,
+	localChalk: typeof chalk
+): Promise<void> {
+	const notFound = collectionNames.filter(
+		(name: string) => !filteredCollections.find((o: any) => o.collection === name)
+	)
+	if (notFound.length > 0) {
+		console.error(localChalk.red(`Collection(s) not found: ${notFound.join(", ")}`))
+		process.exit(1)
+	}
+
+	let spinner = new Spinner(`Creating pages from collections...`)
+	spinner.start()
+	await Promise.all(
+		collectionNames.map(async (collectionName: string) => {
+			const collection = filteredCollections.find(
+				(o: any) => o.collection === collectionName
+			)
+			const singleton: boolean = collection!.meta?.singleton || false
+			return nuxtus.createPage(collectionName, singleton)
+		})
+	).catch((err: any) => {
+		spinner.stop()
+		console.error(localChalk.red("Error creating page(s): " + err.message))
+		process.exit(1)
+	})
+	spinner.stop()
+	console.info(localChalk.green("✅ All collections created. Restart Nuxt to see them."))
+}
+
 let create: Command
 
 export default create = async function (
 	localChalk: typeof chalk,
-	nuxtus?: Generator
+	nuxtus?: Generator,
+	requestedCollections?: string[]
 ): Promise<void> {
 	try {
 		if (nuxtus === undefined) nuxtus = new Generator(localChalk)
@@ -36,13 +70,12 @@ export default create = async function (
 		return
 	}
 
-	const collectionData = await nuxtus.getCollections()
+	const collectionData: any = await nuxtus.getCollections()
+	const allCollections = Array.isArray(collectionData)
+		? collectionData
+		: (collectionData.data || [])
 
-	if (
-		collectionData.data === null ||
-		collectionData.data === undefined ||
-		collectionData.data.length === 0
-	) {
+	if (allCollections.length === 0) {
 		console.warn(localChalk.yellow("No Directus collections found."))
 		console.warn()
 		return
@@ -53,7 +86,7 @@ export default create = async function (
 	if (existsSync("pages")) {
 		existingCollections = await getDirectories("pages")
 	}
-	const filteredCollections = collectionData.data.filter((collection: any) => {
+	const filteredCollections = allCollections.filter((collection: any) => {
 		return (
 			!collection.collection.startsWith("directus_") &&
 			!existingCollections.includes(collection.collection) &&
@@ -63,6 +96,11 @@ export default create = async function (
 	const collections = filteredCollections.map((collection: any) => {
 		return collection.collection
 	})
+
+	if (requestedCollections && requestedCollections.length > 0) {
+		await createPages(requestedCollections, filteredCollections, nuxtus, localChalk)
+		return
+	}
 
 	if (collections.length === 0) {
 		console.warn(localChalk.yellow("No collections need to be created."))

@@ -20,8 +20,9 @@ const token: Command = async function (
 	let token
 	try {
 		token = await nuxtus.generateStaticToken()
-	} catch (err) {
-		throw new Error(`Unable to save token to Directus. ${err}`)
+	} catch (err: any) {
+		console.error(chalk.red(`Unable to register token with Directus. .env not modified. ${err.message || err}`))
+		return
 	}
 
 	// add the token to nuxt.config.ts
