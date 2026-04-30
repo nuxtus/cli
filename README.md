@@ -22,3 +22,15 @@ $ nuxtus [command] [options]
 ```
 
 > For help `nuxtus help`
+
+## Non-Interactive Mode
+
+For CI/CD pipelines and scripted use:
+
+```bash
+# Create pages for specific collections without interactive prompts
+nuxtus create -c articles -c authors
+
+# Generate type definitions without the banner
+nuxtus types -q
+```
