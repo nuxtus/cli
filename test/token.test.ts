@@ -61,3 +61,30 @@ export default defineNuxtConfig({
 		`token: process.env.NUXTUS_DIRECTUS_STATIC_TOKEN`
 	)
 })
+
+test("Token generation failure throws and does not modify .env", async () => {
+	const nuxtus = new Generator()
+	nuxtus.generateStaticToken.mockImplementation(() => {
+		throw new Error("Network error")
+	})
+	fs.writeFileSync(
+		".env",
+		`DIRECTUS_URL=http://localhost:8055\nNUXTUS_DIRECTUS_ADMIN_EMAIL=admin@example.com\nNUXTUS_DIRECTUS_ADMIN_PASSWORD=password`
+	)
+	fs.writeFileSync(
+		"nuxt.config.ts",
+		`import { defineNuxtConfig } from 'nuxt'\nexport default defineNuxtConfig({\n\tdirectus: {},\n})`
+	)
+	const envBefore = fs.readFileSync(".env", "utf8")
+	await expect(token(chalk, nuxtus)).rejects.toThrow("Unable to register token")
+	const envAfter = fs.readFileSync(".env", "utf8")
+	expect(envAfter).toBe(envBefore)
+})
+
+test("Generator constructor failure throws", async () => {
+	const MockGenerator = Generator as unknown as ReturnType<typeof vi.fn>
+	MockGenerator.mockImplementationOnce(() => {
+		throw new Error("Missing credentials")
+	})
+	await expect(token(chalk)).rejects.toThrow("Missing credentials")
+})

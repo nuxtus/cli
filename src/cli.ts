@@ -33,10 +33,6 @@ if (major < 16) {
 
 const collect = (value: string, previous: string[]) => previous.concat([value])
 
-clear()
-console.info(
-	chalk.green(figlet.textSync("nuxtus-cli", { horizontalLayout: "full" }))
-)
 program
 	.name("nuxtus")
 	.version("v" + version)

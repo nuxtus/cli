@@ -111,3 +111,76 @@ test("Create collection pages", async () => {
 	expect(nuxtus.getCollections).toBeCalledTimes(1)
 	expect(nuxtus.createPage).toBeCalledTimes(2)
 })
+
+test("Non-interactive --collection creates pages", async () => {
+	const nuxtus = new Generator()
+	nuxtus.getCollections.mockImplementation(() => ({
+		data: [
+			{ collection: "blogposts", meta: { hidden: false, singleton: false } },
+			{ collection: "authors", meta: { hidden: false, singleton: false } },
+		],
+	}))
+	await create(chalk, nuxtus, ["blogposts"])
+	expect(nuxtus.createPage).toBeCalledTimes(1)
+	expect(nuxtus.createPage).toBeCalledWith("blogposts", false)
+})
+
+test("SDK v21 flat-array response shape", async () => {
+	const nuxtus = new Generator()
+	nuxtus.getCollections.mockImplementation(() => [
+		{ collection: "blogposts", meta: { hidden: false, singleton: false } },
+	])
+	await create(chalk, nuxtus, ["blogposts"])
+	expect(nuxtus.createPage).toBeCalledTimes(1)
+})
+
+test("Non-existent collection throws", async () => {
+	const nuxtus = new Generator()
+	nuxtus.getCollections.mockImplementation(() => ({
+		data: [
+			{ collection: "blogposts", meta: { hidden: false, singleton: false } },
+		],
+	}))
+	await expect(create(chalk, nuxtus, ["nonexistent"])).rejects.toThrow(
+		"Collection(s) not found: nonexistent"
+	)
+})
+
+test("System collection reports specific reason", async () => {
+	const nuxtus = new Generator()
+	nuxtus.getCollections.mockImplementation(() => ({
+		data: [
+			{ collection: "directus_users", meta: { hidden: false } },
+		],
+	}))
+	await expect(create(chalk, nuxtus, ["directus_users"])).rejects.toThrow(
+		"system collection"
+	)
+})
+
+test("Hidden collection reports specific reason", async () => {
+	const nuxtus = new Generator()
+	nuxtus.getCollections.mockImplementation(() => ({
+		data: [
+			{ collection: "hidden_col", meta: { hidden: true } },
+		],
+	}))
+	await expect(create(chalk, nuxtus, ["hidden_col"])).rejects.toThrow(
+		"hidden collection"
+	)
+})
+
+test("Existing page reports specific reason", async () => {
+	fs.mkdirSync("pages", { recursive: true })
+	fs.mkdirSync("pages/existing_page")
+	const nuxtus = new Generator()
+	nuxtus.getCollections.mockImplementation(() => ({
+		data: [
+			{ collection: "existing_page", meta: { hidden: false, singleton: false } },
+		],
+	}))
+	await expect(create(chalk, nuxtus, ["existing_page"])).rejects.toThrow(
+		"page already exists"
+	)
+	fs.rmSync("pages", { recursive: true })
+})

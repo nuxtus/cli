@@ -14,15 +14,13 @@ const token: Command = async function (
 	try {
 		if (nuxtus === undefined) nuxtus = new Generator(chalk)
 	} catch (err) {
-		// Error will already be displayed by Generator, so just exit
-		return
+		throw err
 	}
 	let token
 	try {
 		token = await nuxtus.generateStaticToken()
 	} catch (err: any) {
-		console.error(chalk.red(`Unable to register token with Directus. .env not modified. ${err.message || err}`))
-		return
+		throw new Error(`Unable to register token with Directus. .env not modified. ${err.message || err}`)
 	}
 
 	// add the token to nuxt.config.ts

@@ -25,16 +25,35 @@ const getDirectories = async (source: string) =>
 
 async function createPages(
 	collectionNames: string[],
+	allCollections: any[],
 	filteredCollections: any[],
+	existingCollections: string[],
 	nuxtus: Generator,
 	localChalk: typeof chalk
 ): Promise<void> {
+	const allNames = allCollections.map((c: any) => c.collection)
 	const notFound = collectionNames.filter(
-		(name: string) => !filteredCollections.find((o: any) => o.collection === name)
+		(name: string) => !allNames.includes(name)
 	)
 	if (notFound.length > 0) {
-		console.error(localChalk.red(`Collection(s) not found: ${notFound.join(", ")}`))
-		process.exit(1)
+		throw new Error(`Collection(s) not found: ${notFound.join(", ")}`)
+	}
+
+	const filteredReasons: string[] = []
+	for (const name of collectionNames) {
+		if (name.startsWith("directus_")) {
+			filteredReasons.push(`${name} (system collection)`)
+		} else if (existingCollections.includes(name)) {
+			filteredReasons.push(`${name} (page already exists)`)
+		} else {
+			const col = allCollections.find((c: any) => c.collection === name)
+			if (col && col.meta?.hidden) {
+				filteredReasons.push(`${name} (hidden collection)`)
+			}
+		}
+	}
+	if (filteredReasons.length > 0) {
+		throw new Error(`Cannot create pages for: ${filteredReasons.join(", ")}`)
 	}
 
 	let spinner = new Spinner(`Creating pages from collections...`)
@@ -49,8 +68,7 @@ async function createPages(
 		})
 	).catch((err: any) => {
 		spinner.stop()
-		console.error(localChalk.red("Error creating page(s): " + err.message))
-		process.exit(1)
+		throw new Error("Error creating page(s): " + err.message)
 	})
 	spinner.stop()
 	console.info(localChalk.green("✅ All collections created. Restart Nuxt to see them."))
@@ -66,8 +84,7 @@ export default create = async function (
 	try {
 		if (nuxtus === undefined) nuxtus = new Generator(localChalk)
 	} catch (err) {
-		// Error will already be displayed by Generator, so just exit
-		return
+		throw err
 	}
 
 	const collectionData: any = await nuxtus.getCollections()
@@ -98,7 +115,7 @@ export default create = async function (
 	})
 
 	if (requestedCollections && requestedCollections.length > 0) {
-		await createPages(requestedCollections, filteredCollections, nuxtus, localChalk)
+		await createPages(requestedCollections, allCollections, filteredCollections, existingCollections, nuxtus, localChalk)
 		return
 	}
 

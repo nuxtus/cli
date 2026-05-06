@@ -13,8 +13,7 @@ const create: Command = async function (
 	try {
 		if (nuxtus === undefined) nuxtus = new Generator(chalk)
 	} catch (err) {
-		// Error will already be displayed by Generator, so just exit
-		return
+		throw err
 	}
 	await nuxtus.createTypes(chalk)
 }
